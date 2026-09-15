@@ -42,10 +42,10 @@ from function_utils import *
 # ASSIGNING IMP PATHS TO THE VARIABLES
 #------------------------------------------------
 
-books_data_path = r"C:\Users\HP\Desktop\training\Python\books_store\books_copy.xlsx"
-users_data_path = r"C:\Users\HP\Desktop\training\Python\LIB\users_data.xlsx"
-empls_data_path = r"C:\Users\HP\Desktop\training\Python\LIB\empls_data.csv"
-credt_data_path = r"C:\Users\HP\Desktop\training\Python\LIB\credentials.txt"
+books_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\books_copy.xlsx"
+users_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\users_data.xlsx"
+empls_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\empls_data.csv"
+credt_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\credentials.txt"
 
 #------------------------------------------------
 # ASSIGNING VALUES TO IMP VARIABLES :
@@ -89,8 +89,8 @@ def create_bill(code,bookname,author,price,quantity,total):
     decor_line()
     title_box = Table(box=box.ROUNDED, border_style="#FFF3E0",style="on #2d1f0f",expand=True,show_header=False,padding=(1,1))
     title_box.add_column(justify="center")
-    title_box.add_row(Text("📚   DIGITAL LIBRARY OF NAVI MUMBAI   📚",style="bold bright_white on #0066FF",justify="center"))
-    title_box.add_row(Text("( By MJJ-TechWorld )",style="bold #FFD700 on #1a1a1a",justify="center"))
+    title_box.add_row(Text("📚   DIGITAL LIBRARY OF NAVI MUMBAI   📚",style="#0066FF",justify="center"))
+    title_box.add_row(Text("( 🌏 💻  By MJJ-TechWorld  💻 🌏 )",style="bold #FFD700 on #1a1a1a",justify="center"))
 
     table = Table(box=box.DOUBLE_EDGE,
                   title_style="bold yellow",
@@ -117,7 +117,7 @@ def create_bill(code,bookname,author,price,quantity,total):
         Text(f"{quote}", style="bold yellow", justify="center"),
         line("bright_magenta")
         )
-    console.print(Panel(content, box=box.DOUBLE, border_style="#00BFFF on #D6EAFF",padding=(1,1), width=console.width - 2))
+    console.print(Panel(content, box=box.DOUBLE, border_style="#00BFFF on #0F2D2E",padding=(1,1), width=console.width - 2))
     
 def buy_book():
     code_list,bookname_list,author_list,price_list,quantity_list,total_list = [],[],[],[],[],[]
@@ -145,7 +145,13 @@ def buy_book():
             while True:
                 value = False
                 quantity = user_input("Enter quantity of this book : ")
-                if int(quantity) <= int(avail_q) :
+
+                if quantity == "0":
+                    error_message("Quantity cannot be zero here!")
+                    choose_option()
+                    break
+
+                elif int(quantity) <= int(avail_q):
                     correct_message("Book Sold Successfully!")
 
                     code_list.append(uc)
@@ -184,6 +190,7 @@ def buy_book():
                     error_message("Please enter valid quantity")
                 else:
                     error_message("Insufficient quantity of book available!")
+            break
         else:
             error_message("Book Not Found!") 
 
@@ -200,11 +207,13 @@ def choose_option():
 
         if sel_option == "1":
             search_book()
-            break
+            choose_option()
+            return
 
         elif sel_option == "2":
             buy_book()
-            break
+            menu_display()
+            return
         else:
             error_message("Please enter valid option number from given options!")
 
@@ -248,11 +257,12 @@ def change_rate():
 # wb.save(books_data_path)
 
 def banner():
+    f = Figlet(font='small',width=200)
     name = figlet_format('Digital Books\n Store',font="mini", width=200).strip()
     content = Group(
         Align.center(Text(name, style="bold bright_white on #00ACC1")),
         Text(""),
-        Align.center(Text(" ( By MJJ-TechWorld ) ", style="bold #FFD700 on #3a3200"))
+        Align.center(f.renderText("Digital Books Store"))
     )
     title_box = Panel(content,
                     box=box.ROUNDED,
@@ -273,12 +283,14 @@ def banner():
         expand=False
     ))
 
-if __name__ == "__main__":
-    banner()
-    print(emoji.emojize(":earth_asia:"))
-    print(emoji.emojize(":open_book:"))
-    print(emoji.emojize(":books:"))
-    print(emoji.emojize(":laptop:"))
+
+    # print(emoji.emojize(":globe_showing_Asia-Australia:"))
+    # print(emoji.emojize(":open_book:"))
+    # print(emoji.emojize(":books:"))
+    # print(emoji.emojize(":laptop:"))
+
+def menu_display():
+    login_title()
     decor_line()
     head_color("Actions Available :\n")
     text_color("\t1. Search book(s)")
@@ -293,7 +305,7 @@ if __name__ == "__main__":
             search_book()
             break
         elif select_option == "2":
-            buy_book()
+            choose_option()
             break
 
         elif select_option == "3":
@@ -301,5 +313,13 @@ if __name__ == "__main__":
 
         else:
             error_message("Please enter valid option nuber from above give options")
+    
+if __name__ == "__main__":
+    menu_display()
 
-   
+
+
+
+
+
+

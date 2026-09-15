@@ -18,11 +18,13 @@ import emoji
 from getpass import getpass
 from datetime import datetime, timedelta
 from pyfiglet import figlet_format
+from pyfiglet import Figlet
 
 from rich.console import Console,Group
 from rich.table import Table
 from rich.text import Text
 from rich.rule import Rule
+from rich.align import Align
 from rich import box
 from rich.panel import Panel
 from rich.progress import track
@@ -33,7 +35,7 @@ console = Console()
 #------------------------------------------------
 
 empls_data_path = r"C:\Users\HP\Desktop\training\Python\LIB\empls_data.csv"
-books_data_path = r"C:\Users\HP\Desktop\training\Python\books_store\books_copy.xlsx"
+books_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\books_copy.xlsx"
 
 #------------------------------------------------
 # DEFINING IMP FUNCTIONS OF DECORATIVE STUFFS :
@@ -62,11 +64,11 @@ def text_color(message):
     console.print(f"[bold #FFBF00]{message}[/]")
 
 def user_input(message):
-    return console.input(f"[#00D9FF]{message}[/]").strip()
+    return console.input(f"[#FFFF00]{message}[/]").strip()
 
 def ask_option_number():
     message = "Enter option number to proceed further : "
-    return console.input(f"\n[#00D9FF]{message}[/]").strip()
+    return console.input(f"\n[#FFFF00]{message}[/]").strip()
 
 def option_error():
     message = "Please enter valid option number from given options"
@@ -146,92 +148,94 @@ def search_book():
 
         if sel_option == "1":
             check_by_book_name()
-            break
+            return
 
         if sel_option == "2":
             check_by_author_name()
-            break
+            return
 
         if sel_option == "3":
             check_by_publish_date()
-            break
+            return
 
         if sel_option == "4":
             check_by_publish_date()
-            break
+            return
 
         else:
             error_message("Please enter valid option number from given options")
 
 def check_by_book_name():
-    while True:
+    decor_line()
+    value = False
+    book_name = user_input("Enter name of book : ")
+    decor_line()
+
+    wb = load_workbook(books_data_path)
+    for sheet in wb.sheetnames:
+        s = wb[sheet]
+        for row in s.iter_rows(min_row=2,values_only=True):
+            if book_name in str(row[2]).strip().lower():
+                info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
+                decor_line()
+                value = True
+
+    wb.save(books_data_path)
+
+    if value:
         decor_line()
-        value = False
-        book_name = user_input("Enter name of books : \n")
-
-        wb = load_workbook(books_data_path)
-        for sheet in wb.sheetnames:
-            s = wb[sheet]
-            for row in s.iter_rows(min_row=2,values_only=True):
-                if book_name in str(row[2]).strip().lower():
-                    info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
-                    decor_line()
-                    value = True
-
-        wb.save(books_data_path)
-
-        if value:
-            decor_line()
-            break
-        else:
-            error_message("Book Not Found!")
+        return
+    else:
+        error_message("Book Not Found!")
 
 def check_by_author_name():
-    while True:
+
+    decor_line()
+    value = False
+    author_name = user_input("Enter author name of book : ")
+    decor_line()
+
+    wb = load_workbook(books_data_path)
+    for sheet in wb.sheetnames:
+        s = wb[sheet]
+        for row in s.iter_rows(min_row=2,values_only=True):
+            if author_name in str(row[3]).strip().lower():
+                info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
+                decor_line()
+                value = True
+
+    wb.save(books_data_path)
+
+    if value:
         decor_line()
-        value = False
-        author_name = user_input("Enter author name of book : \n")
-
-        wb = load_workbook(books_data_path)
-        for sheet in wb.sheetnames:
-            s = wb[sheet]
-            for row in s.iter_rows(min_row=2,values_only=True):
-                if author_name in str(row[3]).strip().lower():
-                    info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
-                    decor_line()
-                    value = True
-
-        wb.save(books_data_path)
-
-        if value:
-            decor_line()
-            break
-        else:
-            error_message("Book Not Found!")
+        return
+    else:
+        error_message("Book Not Found!")
 
 def check_by_publish_date():
-    while True:
+    decor_line()
+    value = False
+    info_message("The date should be in format : dd-mm-yy \n")
+    publish_date = user_input("Enter publishing date of book : ")
+    decor_line()
+
+    wb = load_workbook(books_data_path)
+    for sheet in wb.sheetnames:
+        s = wb[sheet]
+        for row in s.iter_rows(min_row=2,values_only=True):
+            if publish_date in str(row[5]).strip().lower():
+                info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
+                decor_line()
+                value = True
+
+    wb.save(books_data_path)
+
+    if value:
         decor_line()
-        value = False
-        info_message("The date should be in format : dd-mm-yy \n")
-        publish_date = user_input("Enter publishing date of book : \n")
-
-        wb = load_workbook(books_data_path)
-        for sheet in wb.sheetnames:
-            s = wb[sheet]
-            for row in s.iter_rows(min_row=2,values_only=True):
-                if publish_date in str(row[5]).strip().lower():
-                    info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
-                    decor_line()
-                    value = True
-
-        wb.save(books_data_path)
-
-        if value:
-            decor_line()
-            break
-        else:
-            error_message("Book Not Found!")
+        return
+        
+    else:
+        error_message("Book Not Found!")
 
 def display_genres():
     try : 
@@ -253,23 +257,34 @@ def display_genres():
 
 def check_by_genre():
     display_genres()
-    while True:
+    decor_line()
+    value = False
+    genre = user_input("Enter genre of desire book from above table : ").strip().lower()
+    decor_line()
+
+
+    wb = load_workbook(books_data_path, data_only=True)
+    for s in wb.worksheets:
+        if genre in str(s.title).strip().lower():
+            for row in s.iter_rows(min_row=2, values_only=True ):
+                info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
+                decor_line()
+                value = True
+
+    wb.save(books_data_path)
+
+    if value:
         decor_line()
-        value = False
-        genre = user_input("Enter genre of desire book from above table : \n").strip().lower()
+    else:
+        error_message("Book Not Found!")
 
-        wb = load_workbook(books_data_path, data_only=True)
-        for s in wb.worksheets:
-            if genre in str(s.title).strip().lower():
-                for row in s.iter_rows(min_row=2, values_only=True ):
-                    info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
-                    decor_line()
-                    value = True
+def login_title():
+    f = Figlet(font='small',width=250)
+    title_box = Table(box=box.ROUNDED, border_style="#FFF3E0",style="on #2d1f0f",expand=True,show_header=False,padding=(1,2))
+    title_box.add_column(justify="center", no_wrap=True)
 
-        wb.save(books_data_path)
+    title_box.add_row(Align.center(Text(f.renderText("DIGITAL  BOOKS  STORE"),style="bold bright_white on #0F2D2E")))
+    title_box.add_row(Align.center(Text("( By MJJ-TechWorld )",style="bold #FFD700")))
 
-        if value:
-            decor_line()
-            break
-        else:
-            error_message("Book Not Found!")
+    console.print(title_box)
+
