@@ -67,8 +67,7 @@ def display_login_title():
     pass
 
 
-if __name__ == "__main__":
-    pass
+
     # while True:
     #     username = input("Enter Your Username : ")
 
@@ -203,7 +202,7 @@ def choose_option():
             search_book()
             break
 
-        if sel_option == "2":
+        elif sel_option == "2":
             buy_book()
             break
         else:
@@ -274,31 +273,33 @@ def banner():
         expand=False
     ))
 
-banner()
-print(emoji.emojize(":earth_asia:"))
-print(emoji.emojize(":open_book:"))
-print(emoji.emojize(":books:"))
-print(emoji.emojize(":laptop:"))
-decor_line()
-head_color("Actions Available :\n")
-text_color("\t1. Search book(s)")
-text_color("\t2. Buy book(s)")
-text_color("\t3. Exit")
+if __name__ == "__main__":
+    banner()
+    print(emoji.emojize(":earth_asia:"))
+    print(emoji.emojize(":open_book:"))
+    print(emoji.emojize(":books:"))
+    print(emoji.emojize(":laptop:"))
+    decor_line()
+    head_color("Actions Available :\n")
+    text_color("\t1. Search book(s)")
+    text_color("\t2. Buy book(s)")
+    text_color("\t3. Exit")
 
-while True:
-    decor_line()    
-    select_option = user_input("Enter option number from options : ")
+    while True:
+        decor_line()    
+        select_option = user_input("Enter option number from options : ")
 
-    if select_option == "1":
-        search_book()
-        break
-    if select_option == "2":
-        buy_book()
-        break
+        if select_option == "1":
+            search_book()
+            break
+        elif select_option == "2":
+            buy_book()
+            break
 
-    if select_option == "3":
-        break
+        elif select_option == "3":
+            break
 
-    else:
-        error_message("Please enter valid option nuber from above give options")
+        else:
+            error_message("Please enter valid option nuber from above give options")
 
+   

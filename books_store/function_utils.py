@@ -43,10 +43,10 @@ def error_message(error):
     console.print(f"\n[bold red]⚠️ {error}[/bold red]\n")
 
 def info_message(message):
-    console.print(f"[cyan]{message}[/cyan]")
+    console.print(f"[green]{message}[/green]")
 
 def correct_message(message):
-    console.print(f"\n[bold green]✅ {message}[/bold green]\n")
+    console.print(f"\n[bold cyan]✅ {message}[/]\n")
 
 def decor_line():
     decor = "-"*80
@@ -79,6 +79,16 @@ def progress_bar(val=1):
 def line(style="cyan"):
     return Rule(style=style)
 
+def terminating_program():
+    return text_color("---Program Terminated---\n")
+
+def filenoterror():
+    error_message("Please ensure that you had also cloned all data related folders from program link \n")
+    terminating_program()
+
+def filecloseerror():
+    error_message("Please ensure that you have closed all excel files regarding this program !\n")
+    terminating_program()
 #------------------------------------------------
 # DEFINING IMP FUNCTIONS USED IN PROGRAM ---
 #------------------------------------------------
@@ -129,7 +139,8 @@ def search_book():
         head_color("Available ways to search book(s) Or to check Unique Code of book(s):\n")
         text_color("\t1.By Name of Book -")
         text_color("\t2.By Name of Author of Book -")
-        text_color("\t3.By Publishing Date of Book -\n")
+        text_color("\t3.By Publishing Date of Book -")
+        text_color("\t3.By Genre of Book -\n")
 
         sel_option = user_input("Enter option number to proceed further : ")
 
@@ -142,6 +153,10 @@ def search_book():
             break
 
         if sel_option == "3":
+            check_by_publish_date()
+            break
+
+        if sel_option == "4":
             check_by_publish_date()
             break
 
@@ -206,6 +221,47 @@ def check_by_publish_date():
             s = wb[sheet]
             for row in s.iter_rows(min_row=2,values_only=True):
                 if publish_date in str(row[5]).strip().lower():
+                    info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
+                    decor_line()
+                    value = True
+
+        wb.save(books_data_path)
+
+        if value:
+            decor_line()
+            break
+        else:
+            error_message("Book Not Found!")
+
+def display_genres():
+    try : 
+        print(decor2, "\n")
+        print(Fore.CYAN + "GENRES OF BOOKS AVAILABLE IN LIBRARY \n")
+        print(decor2)
+        wb = load_workbook(books_data_path)
+        sheet_names = wb.sheetnames
+        for i in sheet_names:
+            if sheet_names.index(i) % 2 == 0:
+                print(f"   {info_color}{i:<50}|", end = "")
+            else:
+                print(f"{info_color}{i:>50}")
+
+        print("\n", decor2)
+
+    except FileNotFoundError:
+        filenoterror()
+
+def check_by_genre():
+    display_genres()
+    while True:
+        decor_line()
+        value = False
+        genre = user_input("Enter genre of desire book from above table : \n").strip().lower()
+
+        wb = load_workbook(books_data_path, data_only=True)
+        for s in wb.worksheets:
+            if genre in str(s.title).strip().lower():
+                for row in s.iter_rows(min_row=2, values_only=True ):
                     info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
                     decor_line()
                     value = True
