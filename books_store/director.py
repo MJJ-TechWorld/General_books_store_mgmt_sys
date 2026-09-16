@@ -122,7 +122,7 @@ def grant_revoke_access(result):
     Function to grant/ revoke the access given by user to the employee
 
     """
-    a,b,c = 0,0,0 # Initializing
+    a,b,c,d = 0,0,0,0 # Initializing
     while True:
         decor_line()
         first_name = user_input("Enter first name of employee : ").lower().title()
@@ -199,16 +199,35 @@ def grant_revoke_access(result):
             rows = list(csv.reader(f))
 
             for row in rows:
-                if str(row[3]) == pn:
-                    if result == "g":
-                        row[4] = row[4] + access
+                if row[3] == pn:
+                    if row and len(row) == 6 and result == "g":
+                        d = 1
+                        row.append(access)
+                    elif row and len(row) == 7 and result == "g":
+                        d = 1
+                        row[6] = row[6] + access
+                    elif row and len(row) == 7:
+                        d =1
+                        row[6] = row[6].replace(access,"")
+                    elif row and len(row) == 6:
+                        d = 2
                     else:
-                        row[4] = row[4].replace(access,"")
+                        d = 3
 
-            f.seek(0)
-            f.truncate()
-            write = csv.writer(f)
-            write.writerows(rows)
+            if d == 1:
+                f.seek(0)
+                f.truncate()
+                write = csv.writer(f)
+                write.writerows(rows)
+
+            if d == 2:
+                error_message("Not accessed with any applications to revoke!")
+                return
+
+            if d == 3:
+                error_message("Please ensure that employee has created username & password before granting/revoking any access!")
+                return
+
     
 grant_revoke_access("g")
 # add_new_employee()

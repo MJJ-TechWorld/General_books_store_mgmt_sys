@@ -46,6 +46,7 @@ books_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\book
 users_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\users_data.xlsx"
 empls_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\empls_data.csv"
 credt_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\credentials.txt"
+STORE_DATA_PATH = "STORE_RECORDS.xlsx"
 
 #------------------------------------------------
 # ASSIGNING VALUES TO IMP VARIABLES :
@@ -71,6 +72,32 @@ def display_login_title():
     # while True:
     #     username = input("Enter Your Username : ")
 
+
+def create_store_records_excel():
+
+    if not os.path.exists(STORE_DATA_PATH):
+
+        workbook = openpyxl.Workbook()
+
+        sheet = workbook.active
+        sheet.title = "Users Data"
+
+        sheet.append([
+            "Account No",
+            "Name",
+            "PIN",
+            "Transaction ID",
+            "Transaction Type",
+            "Amount",
+            "Previous Balance",
+            "Current Balance",
+            "Date-Time"
+        ])
+
+        workbook.save(STORE_DATA_PATH)
+        workbook.close()
+
+        console.print("[green]Excel database created successfully![/green]")
 
 
 def create_bill(code,bookname,author,price,quantity,total):

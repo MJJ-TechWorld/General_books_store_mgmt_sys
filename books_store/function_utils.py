@@ -61,10 +61,10 @@ def head_color(message):
     console.print(f"\n[bold underline #FF8C00]{message}[/]")
 
 def text_color(message):
-    console.print(f"[bold #FFBF00]{message}[/]")
+    console.print(f"[#FF007F]{message}[/]")
 
 def user_input(message):
-    return console.input(f"[#FFFF00]{message}[/]").strip()
+    return console.input(f"[#FFBF00]{message}[/]").strip()
 
 def ask_option_number():
     message = "Enter option number to proceed further : "
@@ -239,18 +239,36 @@ def check_by_publish_date():
 
 def display_genres():
     try : 
-        print(decor2, "\n")
-        print(Fore.CYAN + "GENRES OF BOOKS AVAILABLE IN LIBRARY \n")
-        print(decor2)
+        # print(decor2, "\n")
+        # print(decor2)
         wb = load_workbook(books_data_path)
         sheet_names = wb.sheetnames
-        for i in sheet_names:
-            if sheet_names.index(i) % 2 == 0:
-                print(f"   {info_color}{i:<50}|", end = "")
-            else:
-                print(f"{info_color}{i:>50}")
+        half = (len(sheet_names) + 1)//2
+        left,right = sheet_names[:half],sheet_names[half:]
 
-        print("\n", decor2)
+        table = Table(show_header=False,title=info_message("GENRES OF BOOKS AVAILABLE"),style="bold cyan")
+    
+        table.add_column(style="bright_magenta")
+        table.add_column(style="bright_magenta")
+
+        for i in range(half):
+            l = left[i]
+            if i < len(right):
+                r = right[i]
+            else:
+                r = ""
+
+            table.add_row(l,r)
+
+        #     if sheet_names.index(i) % 2 == 0:
+        #         table.add_row(i)
+        #         # print(f"   {info_color}{i:<50}|", end = "")
+        #     else:
+        #         table.add_row(i)
+        #         # print(f"{info_color}{i:>50}")
+
+        # # print("\n", decor2)
+        console.print(table)
 
     except FileNotFoundError:
         filenoterror()
@@ -288,3 +306,4 @@ def login_title():
 
     console.print(title_box)
 
+display_genres()
