@@ -34,15 +34,16 @@ console = Console()
 # ASSIGNING VALUES TO IMP VARIABLES :
 #------------------------------------------------
 
-empls_data_path = r"C:\Users\HP\Desktop\training\Python\LIB\empls_data.csv"
+empls_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\empls_data.csv"
 books_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\books_copy.xlsx"
+
 
 #------------------------------------------------
 # DEFINING IMP FUNCTIONS OF DECORATIVE STUFFS :
 #------------------------------------------------
 
 def error_message(error):
-    console.print(f"\n[bold red]⚠️ {error}[/bold red]\n")
+    console.print(f"\n[bold red]⚠️  {error}[/bold red]\n")
 
 def info_message(message):
     console.print(f"[green]{message}[/green]")
@@ -64,18 +65,18 @@ def text_color(message):
     console.print(f"[#FF007F]{message}[/]")
 
 def user_input(message):
-    return console.input(f"[#FFBF00]{message}[/]").strip()
+    return console.input(f"[bold bright_blue]{message}[/]").strip()
 
 def ask_option_number():
     message = "Enter option number to proceed further : "
-    return console.input(f"\n[#FFFF00]{message}[/]").strip()
+    return console.input(f"\n[bold#FFFF00]{message}[/]").strip()
 
 def option_error():
     message = "Please enter valid option number from given options"
     error_message(message)
 
-def progress_bar(val=1):
-    for _ in track(range(30), description="Processing..."):
+def progress_bar(message,val=1):
+    for _ in track(range(30), description=f"{message}..."):
             time.sleep(0.1)
 
 def line(style="cyan"):
@@ -107,8 +108,7 @@ def check_username(username,access):
         data = csv.reader(f)
         next(data)
         for row in data:
-            if (row and row[1] == username and access in row[5]):
-                correct_message("Username Found")
+            if (row and len(row) == 7 and row[4] == username and access in row[6]):
                 return "yes"
             
         error_message("Invalid Username!")
@@ -128,11 +128,13 @@ def check_password(u,p):
         data = csv.reader(file)
         next(data)
         for row in data:
-            if (row and len(row)>1 and row[1] == u  and row[2] == p):
-                correct_message("Logged in successfully!\n")
+            if (row and len(row) == 7 and row[4] == u and row[5] == p):
                 return "yes"
 
         error_message("Wrong Password!\n")
+
+# def create_data_excel():
+
 
 def search_book():
     while True:
@@ -238,9 +240,7 @@ def check_by_publish_date():
         error_message("Book Not Found!")
 
 def display_genres():
-    try : 
-        # print(decor2, "\n")
-        # print(decor2)
+    try :
         wb = load_workbook(books_data_path)
         sheet_names = wb.sheetnames
         half = (len(sheet_names) + 1)//2
@@ -260,14 +260,6 @@ def display_genres():
 
             table.add_row(l,r)
 
-        #     if sheet_names.index(i) % 2 == 0:
-        #         table.add_row(i)
-        #         # print(f"   {info_color}{i:<50}|", end = "")
-        #     else:
-        #         table.add_row(i)
-        #         # print(f"{info_color}{i:>50}")
-
-        # # print("\n", decor2)
         console.print(table)
 
     except FileNotFoundError:
@@ -276,25 +268,50 @@ def display_genres():
 def check_by_genre():
     display_genres()
     decor_line()
-    value = False
-    genre = user_input("Enter genre of desire book from above table : ").strip().lower()
+    genre = user_input(f"Enter exact genre code of desire book from above table : ").upper()
     decor_line()
 
+    wb = load_workbook(books_data_path)
+    sheet = None
+    for s in wb.sheetnames:
+        if genre in s:
+            sheet = s
+            break
 
-    wb = load_workbook(books_data_path, data_only=True)
-    for s in wb.worksheets:
-        if genre in str(s.title).strip().lower():
-            for row in s.iter_rows(min_row=2, values_only=True ):
-                info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
-                decor_line()
-                value = True
+    if sheet is None:
+        error_message("Genre Not Found!")
+        return
+
+    ws = wb[sheet]
+    for row in ws.iter_rows(min_row=2, values_only=True ):
+        decor_line()
+        info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
+        decor_line()
 
     wb.save(books_data_path)
+            
+def check_stock():
 
-    if value:
-        decor_line()
-    else:
-        error_message("Book Not Found!")
+    head_color("\n--- Check Stock Balance ---\n")
+
+    while True:
+        r = 0
+        q = user_input("Enter quantity of books to be checked, left in store : ")
+        if q.isdigit() and int(q) >= 0:
+            head_color(f"\nBooks with {q} quantities left : ")
+            wb = load_workbook(books_data_path)
+            for sheet in wb.worksheets:
+                for row in sheet.iter_rows(min_row=2,values_only=False):
+                    if str(row[9].value).strip() == str(q):
+                        decor_line()
+                        info_message(f"{row[1].value}  {row[2].value}  By {row[3].value}  Avail : {row[9].value}")
+                        r = 1
+            if r == 1:
+                decor_line()
+                break
+            else:
+                error_message("Please enter valid quantity !")
+
 
 def login_title():
     f = Figlet(font='small',width=250)
@@ -302,8 +319,48 @@ def login_title():
     title_box.add_column(justify="center", no_wrap=True)
 
     title_box.add_row(Align.center(Text(f.renderText("DIGITAL  BOOKS  STORE"),style="bold bright_white on #0F2D2E")))
+    title_box.add_row(Align.center(Text(f"⁓⁓"*50,style="#FFF3E0 on #2d1f0f")))
     title_box.add_row(Align.center(Text("( By MJJ-TechWorld )",style="bold #FFD700")))
 
     console.print(title_box)
+    print("\n")
 
-display_genres()
+def login_portal(access):
+    login_title()
+    t = "LOGIN PORTAL"
+    console.print(f"[#FF007F]{t:^80}[/]")
+    head_color("Username\n")
+
+    a = 0
+    while True:
+        username = user_input("Enter Your Username : ")
+        decor_line()
+
+        if check_username(username,access) == "yes": 
+            head_color("Password\n")
+            while True:
+                password = user_input("Enter Your Password : ")
+                decor_line()
+
+                if check_password(username,password) == "yes":
+                    a = 1
+                    info_message("Logged in successfully!")
+                    decor_line()
+                    progress_bar("Creating UI and required display")
+                    break
+            break
+    return a
+
+def main_title():
+    f = Figlet(font='small',width=250)
+    title_box = Table(box=box.ROUNDED, border_style="#FF1493",style="on #1A020F",expand=True,show_header=False,padding=(1,2))
+    title_box.add_column(justify="center", no_wrap=True, style="on #2D2327")
+
+    title_box.add_row(Align.center(Text(f.renderText("DIGITAL  BOOKS  STORE"),style="bold bright_white on #0F2D2E")))
+    title_box.add_row(Align.center(Text(f"⁓⁓"*50,style="#FF1493 on #340C20")))
+    title_box.add_row(Align.center(Text("( By MJJ-TechWorld )",style="bold #FFD700")))
+
+    console.print(title_box)
+    print("\n")
+
+login_portal("c")

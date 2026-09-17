@@ -82,7 +82,7 @@ def add_new_employee():
 
     if c == 1:
         otp = random.randint(1000, 9999)
-        print("Hint : Your OTP is: ",otp)                    
+        console.print(f"[#665D00]Hint : Your OTP is: {otp}[/]")                    
         while True:
             decor_line()
             emp_otp = user_input("Enter OTP sent on employee's registered number : ")
@@ -173,10 +173,10 @@ def grant_revoke_access(result):
         while True : 
             decor_line()
             head_color("Available accesses that you can grant/revoke to employees : \n")
-            head_color("You can grant/revoke only one access at a time : \n")
-            info_message("1. Cashier")
-            info_message("2. Stock Clerk")
-            info_message("3. Proprietor\n")
+            text_color("You can grant/revoke only one access at a time : \n")
+            info_message("\t1. Cashier")
+            info_message("\t2. Stock Clerk")
+            info_message("\t3. Proprietor\n")
 
             opt = user_input("Enter option number from above data : ")
             
@@ -199,13 +199,18 @@ def grant_revoke_access(result):
             rows = list(csv.reader(f))
 
             for row in rows:
+                while row and row[-1] == "":
+                    row.pop()
+
+            for row in rows:
                 if row[3] == pn:
                     if row and len(row) == 6 and result == "g":
                         d = 1
                         row.append(access)
                     elif row and len(row) == 7 and result == "g":
                         d = 1
-                        row[6] = row[6] + access
+                        if access not in row[6]:
+                            row[6] = row[6] + access
                     elif row and len(row) == 7:
                         d =1
                         row[6] = row[6].replace(access,"")
@@ -214,11 +219,12 @@ def grant_revoke_access(result):
                     else:
                         d = 3
 
+
             if d == 1:
                 f.seek(0)
-                f.truncate()
                 write = csv.writer(f)
                 write.writerows(rows)
+                f.truncate()
 
             if d == 2:
                 error_message("Not accessed with any applications to revoke!")
@@ -228,8 +234,42 @@ def grant_revoke_access(result):
                 error_message("Please ensure that employee has created username & password before granting/revoking any access!")
                 return
 
+
+decor_line()
+head_color("Actions Available :\n")
+text_color("\t1. Search book(s)")
+text_color("\t2. Add New Employee")
+text_color("\t3. Grant Access to employee to applications")
+text_color("\t4. Revoke Access to employee to applications")
+text_color("\t5. Exit")
+
+while True:
+    decor_line()    
+    select_option = user_input("Enter option number from options : ")
+
+    if select_option == "1":
+        search_book()
+        break
+
+    elif select_option == "2":
+        add_new_employee()
+        break
+
+    elif select_option == "3":
+        grant_revoke_access("g")
+        break
+
+    elif select_option == "4":
+        grant_revoke_access("r")
+        break
+
+    elif select_option == "5":
+        break
+
+    else:
+        option_error()
     
-grant_revoke_access("g")
+# grant_revoke_access("g")
 # add_new_employee()
 
 
