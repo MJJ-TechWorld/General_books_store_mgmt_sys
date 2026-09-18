@@ -1,30 +1,55 @@
-import openpyxl
-from colorama import init, Fore, Back, Style
-init(autoreset=True)
-from openpyxl import load_workbook
-from openpyxl.styles import Alignment
-from rich import console
-from datetime import datetime, timedelta
-from pyfiglet import figlet_format
+# import openpyxl
+# from colorama import init, Fore, Back, Style
+# init(autoreset=True)
+# from openpyxl import load_workbook
+# from openpyxl.styles import Alignment
+# from rich import console
+# from datetime import datetime, timedelta
+# from pyfiglet import figlet_format
 
+
+# import csv
+# import random
+# import time
+# import uuid
+# import os
+# import emoji
+
+# from getpass import getpass
+# from datetime import datetime, timedelta
+# from pyfiglet import figlet_format
+# from pyfiglet import Figlet
+
+# from rich.console import Console,Group
+# from rich.table import Table
+# from rich.text import Text
+# from rich.rule import Rule
+# from rich.align import Align
+# from rich import box
+# from rich.panel import Panel
+# from rich.progress import track
+# console = Console()
 
 import csv
 import random
 import time
-import uuid
 import os
-import emoji
+import pwinput
+import openpyxl
+import hashlib
 
-from getpass import getpass
-from datetime import datetime, timedelta
+
+from openpyxl import load_workbook
+from openpyxl.styles import Alignment,Font,Border,Side
+from rich import console
+from datetime import datetime
 from pyfiglet import figlet_format
 from pyfiglet import Figlet
-
 from rich.console import Console,Group
 from rich.table import Table
 from rich.text import Text
-from rich.rule import Rule
 from rich.align import Align
+from rich.rule import Rule
 from rich import box
 from rich.panel import Panel
 from rich.progress import track
@@ -34,10 +59,10 @@ console = Console()
 # ASSIGNING VALUES TO IMP VARIABLES :
 #------------------------------------------------
 
-empls_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\empls_data.csv"
-books_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\books_copy.xlsx"
+CREDT_DATA_PATH = "Credential.txt"
+EMPLS_DATA_PATH = "Employees_Data.csv"
+BOOK_DATA_PATH = "BOOKS_DATA.xlsx"
 STORE_DATA_PATH = "STORE_RECORDS.xlsx"
-
 
 #------------------------------------------------
 # DEFINING IMP FUNCTIONS OF DECORATIVE STUFFS :
@@ -93,6 +118,8 @@ def filenoterror():
 def filecloseerror():
     error_message("Please ensure that you have closed all excel files regarding this program !\n")
     terminating_program()
+
+
 #------------------------------------------------
 # DEFINING IMP FUNCTIONS USED IN PROGRAM ---
 #------------------------------------------------
@@ -105,7 +132,7 @@ def check_username(username,access):
     Returns: str: "yes" for correct username, "no" for wrong username. 
     """
 
-    with open(empls_data_path, "r") as f:
+    with open(EMPLS_DATA_PATH, "r") as f:
         data = csv.reader(f)
         next(data)
         for row in data:
@@ -125,7 +152,7 @@ def check_password(u,p):
     Returns:
         str: "yes" for correct password, "no" for incorrect password.
     """
-    with open(empls_data_path, "r") as file:
+    with open(EMPLS_DATA_PATH, "r") as file:
         data = csv.reader(file)
         next(data)
         for row in data:
@@ -174,7 +201,7 @@ def check_by_book_name():
     book_name = user_input("Enter name of book : ")
     decor_line()
 
-    wb = load_workbook(books_data_path)
+    wb = load_workbook(BOOK_DATA_PATH)
     for sheet in wb.sheetnames:
         s = wb[sheet]
         for row in s.iter_rows(min_row=2,values_only=True):
@@ -183,7 +210,7 @@ def check_by_book_name():
                 decor_line()
                 value = True
 
-    wb.save(books_data_path)
+    wb.save(BOOK_DATA_PATH)
 
     if value:
         decor_line()
@@ -198,7 +225,7 @@ def check_by_author_name():
     author_name = user_input("Enter author name of book : ")
     decor_line()
 
-    wb = load_workbook(books_data_path)
+    wb = load_workbook(BOOK_DATA_PATH)
     for sheet in wb.sheetnames:
         s = wb[sheet]
         for row in s.iter_rows(min_row=2,values_only=True):
@@ -207,7 +234,7 @@ def check_by_author_name():
                 decor_line()
                 value = True
 
-    wb.save(books_data_path)
+    wb.save(BOOK_DATA_PATH)
 
     if value:
         decor_line()
@@ -222,7 +249,7 @@ def check_by_publish_date():
     publish_date = user_input("Enter publishing date of book : ")
     decor_line()
 
-    wb = load_workbook(books_data_path)
+    wb = load_workbook(BOOK_DATA_PATH)
     for sheet in wb.sheetnames:
         s = wb[sheet]
         for row in s.iter_rows(min_row=2,values_only=True):
@@ -231,7 +258,7 @@ def check_by_publish_date():
                 decor_line()
                 value = True
 
-    wb.save(books_data_path)
+    wb.save(BOOK_DATA_PATH)
 
     if value:
         decor_line()
@@ -242,7 +269,7 @@ def check_by_publish_date():
 
 def display_genres():
     try :
-        wb = load_workbook(books_data_path)
+        wb = load_workbook(BOOK_DATA_PATH)
         sheet_names = wb.sheetnames
         half = (len(sheet_names) + 1)//2
         left,right = sheet_names[:half],sheet_names[half:]
@@ -272,7 +299,7 @@ def check_by_genre():
     genre = user_input(f"Enter exact genre code of desire book from above table : ").upper()
     decor_line()
 
-    wb = load_workbook(books_data_path)
+    wb = load_workbook(BOOK_DATA_PATH)
     sheet = None
     for s in wb.sheetnames:
         if genre in s:
@@ -289,7 +316,7 @@ def check_by_genre():
         info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
         decor_line()
 
-    wb.save(books_data_path)
+    wb.save(BOOK_DATA_PATH)
             
 def check_stock():
 
@@ -300,7 +327,7 @@ def check_stock():
         q = user_input("Enter quantity of books to be checked, left in store : ")
         if q.isdigit() and int(q) >= 0:
             head_color(f"\nBooks with {q} quantities left : ")
-            wb = load_workbook(books_data_path)
+            wb = load_workbook(BOOK_DATA_PATH)
             for sheet in wb.worksheets:
                 for row in sheet.iter_rows(min_row=2,values_only=False):
                     if str(row[9].value).strip() == str(q):
@@ -330,10 +357,8 @@ def login_portal(access):
     login_title()
     t = "LOGIN PORTAL"
     title_box = Table(box=box.DOUBLE_EDGE, border_style="#FF007F",style="on #2d1f0f",expand=True,show_header=False,padding=(2,3))
-    # title_box.add_column(justify="center")
     title_box.add_row(Text("LOGIN PORTAL",style="#0066FF",justify="center"))
     console.print(title_box)
-    # console.print(f"[#FF007F]{t:^80}[/]")
     head_color("Username\n")
 
     a = 0
@@ -344,7 +369,9 @@ def login_portal(access):
         if check_username(username,access) == "yes": 
             head_color("Password\n")
             while True:
-                password = user_input("Enter Your Password : ")
+                console.print("[bold bright_blue]Enter Your Password : [/]", end = "")
+                password = pwinput.pwinput(prompt="", mask="*")
+                # password = user_input("Enter Your Password : ")
                 decor_line()
 
                 if check_password(username,password) == "yes":
@@ -355,6 +382,14 @@ def login_portal(access):
                     break
             break
     return a
+
+def sub_title(title):
+
+    title_box = Table(box=box.DOUBLE_EDGE, border_style="#FFF3E0",style="on #2d1f0f",expand=True,show_header=False,padding=(2,3))
+    title_box.add_row(Text(f"{title}",style="#0066FF",justify="center"))
+    print("\n")
+    console.print(title_box)
+    print("\n")
 
 def main_title():
     f = Figlet(font='small',width=250)
@@ -390,5 +425,3 @@ def update_record(sheet,code_list,bookname_list,author_list,price_list,quantity_
             cell.alignment = Alignment(horizontal='center', vertical='center')
 
     wb.save(STORE_DATA_PATH)
-
-# login_portal("c")

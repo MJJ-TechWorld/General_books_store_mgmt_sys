@@ -235,14 +235,68 @@ def third_p():
                     error_message("Please ensure that employee has created username & password before granting/revoking any access!")
                     return
 
+    def check_sales():
+
+        profit1,profit2,profit3 = [],[],[]
+        loss1,loss2,loss3 = [],[],[]
+        d1,d2,d3 = [],[],[]
+        t1,t2,t3 = [],[],[]
+
+        date = datetime.today().strftime('%d-%m-%Y')
+
+        wb = load_workbook(STORE_DATA_PATH)
+        s = wb["Store Data"]
+        for row in s.iter_rows(min_row=2,values_only=False):
+            if str(row[6].value).strip() == str(date):
+                loss1.append(int(row[5].value))
+                d1.append(int(row[4].value))
+            if str(row[6].value).strip()[:5] == str(date)[:5]:
+                loss2.append(int(row[5].value))
+                d2.append(int(row[4].value))
+            if str(row[6].value).strip()[-2:] == str(date)[-2:]:
+                loss3.append(int(row[5].value))
+                d3.append(int(row[4].value))
+
+        wd = load_workbook(STORE_DATA_PATH)
+        s = wd["Users Data"]
+        for row in s.iter_rows(min_row=2,values_only=False):
+            for row in s.iter_rows(min_row=2,values_only=False):
+                if str(row[7].value).strip() == str(date):
+                    profit1.append(int(row[6].value))
+                    t1.append(int(row[4].value))
+                if str(row[7].value).strip()[:5] == str(date)[:5]:
+                    profit2.append(int(row[6].value))
+                    t2.append(int(row[4].value))
+                if str(row[7].value).strip()[-2:] == str(date)[-2:]:
+                    profit3.append(int(row[6].value))
+                    t3.append(int(row[4].value))
+
+        p1,p2,p3 = sum(profit1),sum(profit3),sum(profit3),
+        l1,l2,l3 = sum(loss1),sum(loss2),sum(loss3)
+        s1,s2,s3 = sum(t1),sum(t2),sum(t3)
+        a1,a2,a3 = sum(d1),sum(d2),sum(d3)
+
+        table = Table()
+        header = ["NAME","TODAY","THIS MONTH","THIS YEAR"]
+        for h in header:
+            table.add_column(str(h))
+        table.add_row(f"[#0000ff]Total Books Sold[/]",str(s1),str(s2),str(s3))
+        table.add_row(f"[#0000ff]Profit[/]",str(p1),str(p2),str(p3))
+        table.add_row(f"[#0000ff]Total Books Added[/]",str(a1),str(a2),str(a3))
+        table.add_row(f"[#0000ff]Expense[/]",str(l1),str(l2),str(l3))
+
+        console.print(table)
+
+
     def menu():
         decor_line()
         head_color("Actions Available :\n")
         text_color("\t1. Search book(s)")
-        text_color("\t2. Add New Employee")
-        text_color("\t3. Grant Access to employee to applications")
-        text_color("\t4. Revoke Access to employee to applications")
-        text_color("\t5. Exit")
+        text_color("\t2. Check sale of Store")
+        text_color("\t3. Add New Employee")
+        text_color("\t4. Grant Access to employee to applications")
+        text_color("\t5. Revoke Access to employee to applications")
+        text_color("\t6. Exit")
 
         while True:
             decor_line()    
@@ -253,25 +307,26 @@ def third_p():
                 break
 
             elif select_option == "2":
-                add_new_employee()
+                check_sales()
                 break
 
             elif select_option == "3":
-                grant_revoke_access("g")
+                add_new_employee()
                 break
 
             elif select_option == "4":
-                grant_revoke_access("r")
+                grant_revoke_access("g")
                 break
 
             elif select_option == "5":
+                grant_revoke_access("r")
+                break
+
+            elif select_option == "6":
                 break
 
             else:
                 option_error()
-        
+    menu()
 # grant_revoke_access("g")
 # add_new_employee()
-
-
-

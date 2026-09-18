@@ -5,28 +5,21 @@
 #------------------------------------------------
 
 import openpyxl
-from colorama import init, Fore, Back, Style
-init(autoreset=True)
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment,Font,Border,Side
 from rich import console
-from datetime import datetime, timedelta
+from datetime import datetime
 from pyfiglet import figlet_format
 from pyfiglet import Figlet
-import pyfiglet
-
-
 
 import csv
 import random
 import time
-import uuid
 import os
-import emoji
+import pwinput
 
-from getpass import getpass
-from datetime import datetime, timedelta
-from pyfiglet import figlet_format
+# pwd = pwinput.pwinput(prompt="Enter Your Password : ", mask="*")
+
 
 from rich.console import Console,Group
 from rich.table import Table
@@ -46,7 +39,16 @@ books_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\book
 users_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\users_data.xlsx"
 empls_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\empls_data.csv"
 credt_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\credentials.txt"
+
+
+CREDT_DATA_PATH = "Credential.txt"
+EMPLS_DATA_PATH = "Employees_Data.csv"
+BOOK_DATA_PATH = "BOOKS_DATA.xlsx"
 STORE_DATA_PATH = "STORE_RECORDS.xlsx"
+
+credt_data_path = CREDT_DATA_PATH
+empls_data_path = EMPLS_DATA_PATH
+books_data_path = BOOK_DATA_PATH
 
 #------------------------------------------------
 # ASSIGNING VALUES TO IMP VARIABLES :
