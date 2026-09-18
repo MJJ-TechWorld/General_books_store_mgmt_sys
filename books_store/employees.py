@@ -20,18 +20,23 @@ from rich.table import Table
 from rich.progress import track
 
 from main import books_data_path,users_data_path,empls_data_path,credt_data_path
-
+from function_utils import *
 #------------------------------------------------
 # PROGRAM STARTS FROM HERE :
 #------------------------------------------------
-credt_data_path = r"C:\Users\HP\Desktop\training\Python\LIB\credentials.txt"
+
+
+credt_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\credentials.txt"
+
+
 with open(credt_data_path, "r") as f:
     data_list = f.readlines()
     f.seek(0)
     data_str = f.read()
 
 while True:    
-    emp_id = input("Enter Your Employee Id : ").strip().upper()
+    decor_line()
+    emp_id = user_input("Enter Your Employee Id : ").upper()
     a = 0
     for i in range(1, len(data_list)):
         if emp_id == data_list[i][:6]:
@@ -41,17 +46,19 @@ while True:
     if a == 1:
         break 
     else:
-        print("⚠️ Invalid Employee Id")
+        error_message(" Invalid Employee Id!")
 
 while True:
-    emp_mob_no = input("Enter your registered mobile number : ").strip()
+    decor_line()
+    emp_mob_no = user_input("Enter your registered mobile number : ")
     if not emp_mob_no.isdigit() or len(emp_mob_no) != 10:
-        print("⚠️ PLease Enter Valid Mobile Number !")
+        error_message(" PLease Enter Valid Mobile Number !")
     else:
         break
 
 while True:
-    code = input("Enter Code to create employee account : ").strip()
+    decor_line()
+    code = user_input("Enter Code to create employee account : ")
     usecode = hashlib.md5(str(code).encode()).hexdigest()
     b = 0
     code_pos = data_str.find(emp_id) + 7
@@ -60,24 +67,26 @@ while True:
         b = 1
         break
     else:
-        print("⚠️ Invalid Code")
+        error_message("Invalid Code")
 
 while True:
-    username = input("Create new username : ").strip()
+    decor_line()
+    username = user_input("Create new username : ")
     c = 0
     if username == "":
-        print("⚠️ Invalid Username")
+        error_message("Invalid Username")
 
     else:
         c = 1
         break
 
 while True:
-    print("Password should contain 8 characters only")
+    decor_line()
+    info_message("Password should contain 8 characters only\n")
     d = 0
-    password = input("Enter your password : ")
+    password = user_input("Enter your password : ")
     if len(password) != 8 or password == "":
-        print("⚠️ Invalid Password")
+        error_message("Invalid Password")
     else:
         d = 1
         break
@@ -94,9 +103,8 @@ if a == 1 and b == 1 and c == 1 and d == 1:
         f.seek(0)
         writer = csv.writer(f)
         writer.writerows(rows)
-print("Account Created Successfully !")
 
-# 
-# EMP101,Mayuresh,Jagtap,8591000000,use,pass,acd
-# EMP102,Arav,Sharma,8888989898
-# EMP103,Sada,Date,9098998987
+    progress_bar("Creating employee account")
+    decor_line()
+    correct_message("Account Created Successfully !")
+    decor_line()

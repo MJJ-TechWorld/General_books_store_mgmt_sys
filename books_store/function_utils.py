@@ -36,6 +36,7 @@ console = Console()
 
 empls_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\empls_data.csv"
 books_data_path = r"C:\Users\HP\Desktop\training\Python\Books_Store_Project\books_store\books_copy.xlsx"
+STORE_DATA_PATH = "STORE_RECORDS.xlsx"
 
 
 #------------------------------------------------
@@ -328,7 +329,11 @@ def login_title():
 def login_portal(access):
     login_title()
     t = "LOGIN PORTAL"
-    console.print(f"[#FF007F]{t:^80}[/]")
+    title_box = Table(box=box.DOUBLE_EDGE, border_style="#FF007F",style="on #2d1f0f",expand=True,show_header=False,padding=(2,3))
+    # title_box.add_column(justify="center")
+    title_box.add_row(Text("LOGIN PORTAL",style="#0066FF",justify="center"))
+    console.print(title_box)
+    # console.print(f"[#FF007F]{t:^80}[/]")
     head_color("Username\n")
 
     a = 0
@@ -363,4 +368,27 @@ def main_title():
     console.print(title_box)
     print("\n")
 
-login_portal("c")
+def update_record(sheet,code_list,bookname_list,author_list,price_list,quantity_list,total_list,date):
+
+    wb = load_workbook(STORE_DATA_PATH)
+
+    if sheet == 0:
+        s = "Users Data"
+        ws = wb[s]
+        for i in range(len(code_list)):
+            p = int((total_list[i]) * 30/100)
+            ws.append([code_list[i],bookname_list[i],author_list[i],int(price_list[i]),int(quantity_list[i]),int(total_list[i]),p,date])
+        for cell in ws[ws.max_row]:
+            cell.alignment = Alignment(horizontal='center', vertical='center')
+
+    else:
+        s = "Store Data"
+        ws = wb[s]
+        for i in range(len(code_list)):
+            ws.append([code_list[i],bookname_list[i],author_list[i],int(price_list[i]),int(quantity_list[i]),int(total_list[i]),date])
+        for cell in ws[ws.max_row]:
+            cell.alignment = Alignment(horizontal='center', vertical='center')
+
+    wb.save(STORE_DATA_PATH)
+
+# login_portal("c")

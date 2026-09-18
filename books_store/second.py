@@ -50,230 +50,318 @@ credt_data_path = r"C:\Users\HP\Desktop\training\Python\LIB\credentials.txt"
 # PROGRAM START FROM HERE :
 #------------------------------------------------
 
-def add_new_book(result = ""):
+def second_p():
+    def add_new_book(result = ""):
 
+        if result == "new":
 
-    if result == "new":
-        head_color("\n--- Add New Genre ---\n")
+            head_color("\n--- Add New Genre ---\n")
 
-        genre = user_input(f"Enter genre of {result} book : ").upper()
-        decor_line()
-
-        text_color("Add atleast one book's details under this new genre\n")
-
-        new_code = user_input("Enter general unique code for books under this genre (ex. MYTH, NOV) : ").upper()
-        decor_line()
-                
-        bookname = user_input(f"Enter proper name of {result} book : ")
-        decor_line()
-
-        authorname = user_input(f"Enter author name of {result} book : ")
-        decor_line()
-    
-        lang = user_input(f"Enter language in which {result} book is written : ").upper()
-        decor_line()
-
-        publish_date = user_input(f"Enter publish date of {result} book in format 'dd-mm-yy': ")
-        decor_line()
-
-        while True:
-            buy_price = user_input(f"Enter price of {result} book : ")
+            genre = user_input(f"Enter genre of {result} book : ").upper()
             decor_line()
 
-            if buy_price.isdigit() and int(buy_price) < 0:
-                error_message("Please enter valid price !")
-            else:
-                break
+            text_color("Add atleast one book's details under this new genre\n")
 
-        while True:
-            quantity = user_input(f"Enter quantity of {result} book : ")
+            new_code = user_input("Enter general unique code for books under this genre (ex. MYTH, NOV) : ").upper()
+            decor_line()
+                    
+            bookname = user_input(f"Enter proper name of {result} book : ")
             decor_line()
 
-            if quantity.isdigit() and int(quantity) < 0:
-                error_message("Please enter valid quantity !")
-            else:
-                break
-
-        wb = load_workbook(books_data_path)
-        s = wb.create_sheet(str(genre) + " -- " + str(new_code))
-        header = ["Sr No","DDC Code","Book Name","Author Name","Language","Published Date","Wholesale Price","Market Price (INR)","Profit Margin","Quantities Available"]
-        col_width = [7,15,50,28,17,20,18,21,20,25]
-        f = Font(bold=True, underline="single")
-        b = Border(left=Side("thin"),right=Side("thin"),top=Side("thin"),bottom=Side("thin"))
-        pm = int(int(buy_price) * 30/100)
-        wp = int(int(buy_price) - pm)
-
-        for i in range(len(header)):
-            col = i + 1
-            c = s.cell(row=1, column=col)
-            c.value = header[i]
-            c.font = f
-            c.alignment = Alignment(horizontal="center")
-            c.border = b
-            s.column_dimensions[c.column_letter].width = col_width[i]
-        s.append([1,f"{new_code}10001",bookname,authorname,lang,publish_date,wp,int(buy_price),pm,int(quantity)])
-        for cell in s[s.max_row]:
-            cell.alignment = Alignment(horizontal='center', vertical='center')
-
-        wb.save(books_data_path)
-
-    else:
-
-        head_color("\n--- Add New Book ---\n")
-        display_genres()
-        decor_line()
-        genre = user_input(f"Enter exact genre code of desire book from above table : ").upper()
-        decor_line()
+            authorname = user_input(f"Enter author name of {result} book : ")
+            decor_line()
         
-        wd = load_workbook(books_data_path)
-        sheet = None
-        for s in wd.sheetnames:
-            if genre in s:
-                sheet = s
-                break
-        if sheet is None:
-            error_message("Genre Not Found!")
-            return
-             
-        bookname = user_input(f"Enter proper name of book : ")
-        decor_line()
+            lang = user_input(f"Enter language in which {result} book is written : ").upper()
+            decor_line()
 
-        authorname = user_input(f"Enter author name of book : ")
-        decor_line()
+            publish_date = user_input(f"Enter publish date of {result} book in format 'dd-mm-yy': ")
+            decor_line()
+
+            while True:
+                buy_price = user_input(f"Enter price of {result} book : ")
+                decor_line()
+
+                if buy_price.isdigit() and int(buy_price) < 0:
+                    error_message("Please enter valid price !")
+                else:
+                    break
+
+            while True:
+                quantity = user_input(f"Enter quantity of {result} book : ")
+                decor_line()
+
+                if quantity.isdigit() and int(quantity) < 0:
+                    error_message("Please enter valid quantity !")
+                else:
+                    break
+
+            wb = load_workbook(books_data_path)
+            s = wb.create_sheet(str(genre) + " -- " + str(new_code))
+            header = ["Sr No","DDC Code","Book Name","Author Name","Language","Published Date","Wholesale Price","Market Price (INR)","Profit Margin","Quantities Available"]
+            col_width = [7,15,50,28,17,20,18,21,20,25]
+            f = Font(bold=True, underline="single")
+            b = Border(left=Side("thin"),right=Side("thin"),top=Side("thin"),bottom=Side("thin"))
+            pm = int(int(buy_price) * 30/100)
+            wp = int(int(buy_price) - pm)
+
+            for i in range(len(header)):
+                col = i + 1
+                c = s.cell(row=1, column=col)
+                c.value = header[i]
+                c.font = f
+                c.alignment = Alignment(horizontal="center")
+                c.border = b
+                s.column_dimensions[c.column_letter].width = col_width[i]
+            s.append([1,f"{new_code}10001",bookname,authorname,lang,publish_date,wp,int(buy_price),pm,int(quantity)])
+            for cell in s[s.max_row]:
+                cell.alignment = Alignment(horizontal='center', vertical='center')
+
+            wb.save(books_data_path)
+
+        else:
+
+            code_list,bookname_list,author_list,price_list,quantity_list,total_list = [],[],[],[],[],[]
+            date = datetime.today().strftime('%d-%m-%Y')
     
-        lang = user_input(f"Enter language in which book is written : ").upper()
-        decor_line()
+            head_color("\n--- Add New Book ---\n")
 
-        publish_date = user_input(f"Enter publish date of book in format 'dd-mm-yy': ")
-        decor_line()
+            while True:
+
+                display_genres()
+                decor_line()
+                genre = user_input(f"Enter exact genre code of desire book from above table : ").upper()
+                decor_line()
+                
+                wd = load_workbook(books_data_path)
+                sheet = None
+                for s in wd.sheetnames:
+                    if genre in s:
+                        sheet = s
+                        break
+                if sheet is None:
+                    error_message("Genre Not Found!")
+                    return
+                    
+                bookname = user_input(f"Enter proper name of book : ")
+                decor_line()
+
+                authorname = user_input(f"Enter author name of book : ")
+                decor_line()
+            
+                lang = user_input(f"Enter language in which book is written : ").upper()
+                decor_line()
+
+                publish_date = user_input(f"Enter publish date of book in format 'dd-mm-yy': ")
+                decor_line()
+
+                while True:
+                    buy_price = user_input(f"Enter price of book : ")
+                    decor_line()
+
+                    if buy_price.isdigit() and int(buy_price) < 0:
+                        error_message("Please enter valid price !")
+                    else:
+                        break
+
+                while True:
+                    quantity = user_input(f"Enter quantity of book : ")
+                    decor_line()
+
+                    if not quantity.isdigit():
+                        error_message("Please enter valid quantity !")
+
+                    elif int(quantity) < 0:
+                        error_message("Please enter valid quantity !")
+                    else:
+                        break
+
+                ws = wd[sheet]
+                last_row = ws.max_row
+                last_sr = ws.cell(row=last_row,column=1).value
+                last_uc = ws.cell(row=last_row,column=2).value
+                new_sr = int(last_sr) + 1
+                text,digt = "",""
+                pm = int(int(buy_price) * 30/100)
+                wp = int(int(buy_price) - pm)
+                for i in last_uc:
+                    if i.isdigit() == False:
+                        text = text + i
+                    else:
+                        digt = digt + i
+                new_digt = int(digt) + 1
+                new_uc = text + str(new_digt)
+                ws.append([new_sr,new_uc,bookname,authorname,lang,publish_date,wp,int(buy_price),pm,int(quantity)])
+
+                for cell in ws[ws.max_row]:
+                    cell.alignment = Alignment(horizontal='center', vertical='center')
+                wd.save(books_data_path)
+
+                wb = load_workbook(books_data_path)
+                for s in wb.worksheets:
+                    for row in s.iter_rows(min_row=2,values_only=False):
+                        if str(row[1].value).strip() == str(new_uc):
+                            code_list.append(row[1].value)
+                            bookname_list.append(row[2].value)
+                            author_list.append(row[3].value)
+                            price_list.append(int(wp))
+                            quantity_list.append(int(quantity))
+                            total_list.append(int(int(wp) * int(quantity)))
+
+                    break
+
+                while True:
+                    head_color("Want to add more book(s)?\n")
+                    text_color("\t1.Yes")
+                    text_color("\t2.No")
+
+                    sel_option = ask_option_number()
+
+                    if sel_option == "1":
+                        break
+
+                    elif sel_option == "2":
+                        update_record(1,code_list,bookname_list,author_list,price_list,quantity_list,total_list,date)
+                        correct_message("Data Updated Successfully!")
+                        return
+
+                    else:
+                        option_error()
+                        continue
+                
+
+                correct_message("Book Added Successfully!")
+
+
+
+    def add_copies():
+        head_color("\n--- Add Copies Of Books ---\n")
+
+        code_list,bookname_list,author_list,price_list,quantity_list,total_list = [],[],[],[],[],[]
+        date = datetime.today().strftime('%d-%m-%Y')
+    
+
 
         while True:
-            buy_price = user_input(f"Enter price of book : ")
             decor_line()
+            unique_code = user_input("Enter unique code of book : ").upper()
+            wb = load_workbook(books_data_path)
+            a = 0
+            for sheet in wb.worksheets:
+                for row in sheet.iter_rows(min_row=2,values_only=False):
+                    if str(row[1].value).strip() == unique_code.upper():
+                        code_list.append(row[1].value)
+                        bookname_list.append(row[2].value)
+                        author_list.append(row[3].value)
+                        price_list.append(int(row[6].value))
+                        a = 1
+                        break
 
-            if buy_price.isdigit() and int(buy_price) < 0:
-                error_message("Please enter valid price !")
-            else:
-                break
-
-        while True:
-            quantity = user_input(f"Enter quantity of book : ")
-            decor_line()
-
-            if quantity.isdigit() and int(quantity) < 0:
-                error_message("Please enter valid quantity !")
-            else:
-                break
-
-        ws = wd[sheet]
-        last_row = ws.max_row
-        last_sr = ws.cell(row=last_row,column=1).value
-        last_uc = ws.cell(row=last_row,column=2).value
-        new_sr = int(last_sr) + 1
-        text,digt = "",""
-        pm = int(int(buy_price) * 30/100)
-        wp = int(int(buy_price) - pm)
-        for i in last_uc:
-            if i.isdigit() == False:
-                text = text + i
-            else:
-                digt = digt + i
-        new_digt = int(digt) + 1
-        new_uc = text + str(new_digt)
-        ws.append([new_sr,new_uc,bookname,authorname,lang,publish_date,wp,int(buy_price),pm,int(quantity)])
-
-        for cell in ws[ws.max_row]:
-            cell.alignment = Alignment(horizontal='center', vertical='center')
-        wd.save(books_data_path)
-        correct_message("Book Added Successfully!")
-
-
-def add_copies():
-    head_color("\n--- Add Copies Of Books ---\n")
-    while True:
-        decor_line()
-        unique_code = user_input("Enter unique code of book : ").upper()
-        wb = load_workbook(books_data_path)
-        a = 0
-        for sheet in wb.worksheets:
-            for row in sheet.iter_rows(min_row=2,values_only=False):
-                if str(row[1].value).strip() == unique_code.upper():
-                    a = 1
+                if a == 1:
                     break
 
             if a == 1:
-                break
+                correct_message(" Book Found with this unique code ")
 
-        if a == 1:
-            correct_message(" Book Found with this unique code ")
+                while True:
+                    decor_line()
+                    quantity = user_input("Enter quantity of copies of this book to be added : ")
+
+                    if not quantity.isdigit():
+                        error_message("Please enter valid quantity!")
+
+                    elif int(quantity) > 0:
+                        row[7].value = int(row[7].value) + int(quantity)
+                        quantity_list.append(int(quantity))
+                        total_list.append(int(row[6].value) * int(quantity))
+                        wb.save(books_data_path)
+                        correct_message("Data updated successfully ! ")
+                        decor_line()
+                        break
+                    else:
+                        error_message(" Please enter valid quantity ! (ex. 2 or 4)")
+            
+            else:
+                error_message("Book with this unique code not found !")
+
 
             while True:
-                decor_line()
-                quantity = user_input("Enter quantity of copies of this book to be added : ")
+                head_color("Want to add more book(s)?\n")
+                text_color("\t1.Yes")
+                text_color("\t2.No")
 
-                if quantity.isdigit() and int(quantity) > 0:
-                    row[7].value = int(row[7].value) + int(quantity)
-                    wb.save(books_data_path)
-                    correct_message("Data updated successfully ! ")
+                sel_option = ask_option_number()
+
+                if sel_option == "1":
+                    break
+
+                elif sel_option == "2":
+                    update_record(1,code_list,bookname_list,author_list,price_list,quantity_list,total_list,date)
+                    correct_message("Data Updated Successfully!")
                     return
+
                 else:
-                    error_message(" Please enter valid quantity ! (ex. 2 or 4)")
-        else:
-            error_message("Book with this unique code not found !")
+                    option_error()
+                    continue
+            
 
-def add_old_book():
-    decor_line()
-    head_color("Actions Available :\n")
-    text_color("\t1. Want to search Unique Code of book(s)?")
-    text_color("\t2. Directly Add copies of book(s)")
+    def add_old_book():
+        decor_line()
+        head_color("Actions Available :\n")
+        text_color("\t1. Want to search Unique Code of book(s)?")
+        text_color("\t2. Directly Add copies of book(s)")
 
-    while True:
-        decor_line()    
-        sel_option = user_input("Enter option number from options : ")
+        while True:
+            decor_line()    
+            sel_option = user_input("Enter option number from options : ")
 
-        if sel_option == "1":
-            search_book()
-            break
-        if sel_option == "2":
-            add_copies()
-            break
-    
+            if sel_option == "1":
+                search_book()
+                break
+            if sel_option == "2":
+                add_copies()
+                break
+        
+    def menu():
+        decor_line()
+        head_color("Actions Available :\n")
+        text_color("\t1. Search Book(s)")
+        text_color("\t2. Check Stock Balance")
+        text_color("\t3. Add Copies of Available Book(s)")
+        text_color("\t4. Add New Books(s)")
+        text_color("\t5. Add New Genre")
+        text_color("\t6. Exit")
 
-decor_line()
-head_color("Actions Available :\n")
-text_color("\t1. Search Book(s)")
-text_color("\t2. Check Stock Balance")
-text_color("\t3. Add Copies of Available Book(s)")
-text_color("\t4. Add New Books(s)")
-text_color("\t5. Add New Genre")
-text_color("\t6. Exit")
+        while True:
+            decor_line()    
+            select_option = user_input("Enter option number from options : ")
 
-while True:
-    decor_line()    
-    select_option = user_input("Enter option number from options : ")
+            if select_option == "1":
+                search_book()
+                break
 
-    if select_option == "1":
-        search_book()
-        break
+            elif select_option == "2":
+                check_stock()
+                break
 
-    elif select_option == "2":
-        check_stock()
-        break
+            elif select_option == "3":
+                add_old_book()
+                break
 
-    elif select_option == "3":
-        add_old_book()
-        break
+            elif select_option == "4":
+                add_new_book()
+                break
 
-    elif select_option == "4":
-        add_new_book()
-        break
+            elif select_option == "5":
+                add_new_book("new")
+                break
 
-    elif select_option == "5":
-        add_new_book("new")
-        break
+            elif select_option == "6":
+                break
 
-    elif select_option == "6":
-        break
+            else:
+                option_error()
 
-    else:
-        error_message("Please enter valid option nuber from above give options")
+    menu()
+
+if __name__ == "__main__":
+    second_p()
