@@ -1,11 +1,11 @@
 #----------------    BACKEND    -----------------
 
+#================================================
+# IMPORTANT IMPORTS ---
+#================================================
+
 import csv
 import random
-import time
-import os
-import pwinput
-import openpyxl
 import hashlib
 
 from openpyxl import load_workbook
@@ -35,12 +35,13 @@ CREDT_DATA_PATH = "CREDENTIAL.txt"
 EMPLS_DATA_PATH = "EMPLOYEES.csv"
 LOG_DATA_PATH = "Activity_Log.txt"
 
-#------------------------------------------------
+#================================================
 # PROGRAM START FROM HERE :
+#================================================
+
 #------------------------------------------------
-
-# DEFINING IMP FUNCTIONS USED IN THIS PROGRAM ---
-
+# DEFINING ALL IMP FUNCTIONS
+#------------------------------------------------
 
 def main_menu(title):
 
@@ -91,6 +92,8 @@ def main_menu(title):
         
         else:
             option_error()
+
+#================================================
 
 def first_p():
 
@@ -220,6 +223,8 @@ def first_p():
             else:
                 option_error()
     menu()
+
+#================================================
 
 def second_p():
 
@@ -431,6 +436,8 @@ def second_p():
 
     menu()
 
+#================================================
+
 def third_p():
 
     sub_title("STOCK CLERK CORNER")
@@ -615,8 +622,6 @@ def third_p():
 
                 correct_message("Book Added Successfully!")
 
-
-
     def add_copies():
         head_color("\n--- Add Copies Of Books ---\n")
 
@@ -686,7 +691,6 @@ def third_p():
                 else:
                     option_error()
                     continue
-            
 
     def add_old_book():
         decor_line()
@@ -751,6 +755,8 @@ def third_p():
                 option_error()
 
     menu()
+
+#================================================
 
 def fourth_p():
 
@@ -1074,5 +1080,9 @@ def fourth_p():
             else:
                 option_error()
     menu()
+
+#================================================
+# CALLING ACTUAL PROGRAM
+#================================================
 
 main_menu("WELCOME")

@@ -1,11 +1,12 @@
+#================================================
+# IMPORTANT IMPORTS ---
+#================================================
+
 import csv
-import random
 import time
 import os
 import pwinput
 import openpyxl
-import hashlib
-
 
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment,Font,Border,Side
@@ -89,7 +90,6 @@ def filecloseerror():
     error_message("Please ensure that you have closed all excel files regarding this program !\n")
     terminating_program()
 
-
 #------------------------------------------------
 # DEFINING IMP FUNCTIONS USED IN PROGRAM ---
 #------------------------------------------------
@@ -132,8 +132,6 @@ def check_password(u,p):
 
         error_message("Wrong Password!\n")
         decor_line()
-
-# def create_data_excel():
 
 
 def search_book():
@@ -266,6 +264,7 @@ def display_genres():
         filenoterror()
 
 def check_by_genre():
+
     display_genres()
     decor_line()
     genre = user_input(f"Enter exact genre code of desire book from above table : ").upper()
@@ -350,8 +349,6 @@ def login_portal(access):
                     print("\n")
                     return username,password
 
-
-
 def login_activity(u,p,a,s="Logged in"):
 
     with open(EMPLS_DATA_PATH, "r") as file:
@@ -377,6 +374,7 @@ def login_activity(u,p,a,s="Logged in"):
                 f.write(f"{id} - {name} - {s} - {action} - {Time}\n")
 
 def menu_title(title):
+
     if title == "WELCOME":
         main_title()
         title_box = Table(box=box.DOUBLE_EDGE, border_style="#FF007F",style="on #2d1f0f",expand=True,show_header=False,padding=(1,1))
@@ -390,7 +388,6 @@ def menu_title(title):
         print("\n")
         console.print(title_box)
         print("\n")
-
 
 def sub_title(title):
 
@@ -476,6 +473,7 @@ def display_log():
     decor1_color()
     with open(LOG_DATA_PATH, "r") as f:
         data = f.read()
+        
         console.print(f"[#FFD54F]{data}[/]")
 
 def update_record(sheet,code_list,bookname_list,author_list,price_list,quantity_list,total_list,date):
