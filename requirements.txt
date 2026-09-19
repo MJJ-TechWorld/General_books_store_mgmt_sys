@@ -1,0 +1,4 @@
+openpyxl
+pwinput
+rich
+pyfiglet

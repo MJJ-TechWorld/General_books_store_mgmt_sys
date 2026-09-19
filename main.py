@@ -75,7 +75,7 @@ def main_menu(title):
             break
 
         elif select_option == "3":
-            l = login_portal("c")
+            l = login_portal("s")
             login_activity(l[0],l[1],"s")
             third_p()
             login_activity(l[0],l[1],"s",s="Logged out")
@@ -83,7 +83,7 @@ def main_menu(title):
             break
 
         elif select_option == "4":
-            l = login_portal("c")
+            l = login_portal("p")
             login_activity(l[0],l[1],"p")
             fourth_p()
             login_activity(l[0],l[1],"p",s="Logged out")
@@ -169,18 +169,28 @@ def first_p():
         if a == 1 and b == 1 and c == 1 and d == 1:
             with open(EMPLS_DATA_PATH, "r+", newline="") as f:
                 data = csv.reader(f)
+                value= False
+                already = False
                 rows = []
                 for row in data:
 
                     if row[0] == emp_id and row[3] == emp_mob_no and len(row) == 4:
                         row.append(username)
                         row.append(password)
+                        value = True
 
-                    else:
-                        error_message("Account Already Exists!")
-                        return
+                    elif len(row) == 6 and row[0] == emp_id:
+                        already = True
 
                     rows.append(row)
+
+                if already:
+                    error_message("Account Already Exists!")
+                    return
+
+                if not value:
+                    error_message("Employee Id Not Found !")
+                    return
 
                 f.seek(0)
                 writer = csv.writer(f)
@@ -536,7 +546,7 @@ def third_p():
                     buy_price = user_input(f"Enter price of book : ")
                     decor_line()
 
-                    if buy_price.isdigit() and int(buy_price) < 0:
+                    if not buy_price.isdigit() or int(buy_price) < 0:
                         error_message("Please enter valid price !")
                     else:
                         break
@@ -648,7 +658,7 @@ def third_p():
                         error_message("Please enter valid quantity!")
 
                     elif int(quantity) > 0:
-                        row[7].value = int(row[7].value) + int(quantity)
+                        row[9].value = int(row[9].value) + int(quantity)
                         quantity_list.append(int(quantity))
                         total_list.append(int(row[6].value) * int(quantity))
                         wb.save(BOOK_DATA_PATH)
@@ -988,7 +998,7 @@ def fourth_p():
                     profit3.append(int(row[6].value))
                     t3.append(int(row[4].value))
 
-        p1,p2,p3 = sum(profit1),sum(profit3),sum(profit3),
+        p1,p2,p3 = sum(profit1),sum(profit),sum(profit3),
         l1,l2,l3 = sum(loss1),sum(loss2),sum(loss3)
         s1,s2,s3 = sum(t1),sum(t2),sum(t3)
         a1,a2,a3 = sum(d1),sum(d2),sum(d3)

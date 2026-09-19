@@ -205,7 +205,7 @@ def search_book():
             return
 
         if sel_option == "4":
-            check_by_publish_date()
+            check_by_genre()
             return
 
         else:
@@ -221,7 +221,7 @@ def check_by_book_name():
     for sheet in wb.sheetnames:
         s = wb[sheet]
         for row in s.iter_rows(min_row=2,values_only=True):
-            if book_name in str(row[2]).strip().lower():
+            if str(book_name).strip().lower() in str(row[2]).strip().lower():
                 info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
                 decor_line()
                 value = True
