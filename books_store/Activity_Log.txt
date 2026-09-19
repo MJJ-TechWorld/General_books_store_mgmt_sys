@@ -1,4 +1,0 @@
-EMP ID - Name - Action - Session - Time
-EMP101 - New User - Logged in - Director Corner - 19-09-2026 12:48 PM
-EMP101 - New User - Logged in - Cashier Corner - 19-09-2026 12:48 PM
-EMP101 - New User - Logged in - Stock Clerk Corner - 19-09-2026 12:48 PM

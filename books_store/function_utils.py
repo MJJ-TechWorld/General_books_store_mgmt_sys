@@ -388,15 +388,15 @@ def login_portal(access):
 
                 if check_password(username,password) == "yes":
                     info_message("Logged in successfully!")
-                    login_activity(username,password,access)
                     decor_line()
                     progress_bar("Creating UI and required display")
                     decor1_color()
                     print("\n")
-                    break
-            break
+                    return username,password
 
-def login_activity(u,p,a):
+
+
+def login_activity(u,p,a,s="Logged in"):
 
     with open(EMPLS_DATA_PATH, "r") as file:
         data = csv.reader(file)
@@ -418,7 +418,7 @@ def login_activity(u,p,a):
 
         
             with open(LOG_DATA_PATH, "a") as f:
-                f.write(f"{id} - {name} - Logged in - {action} - {Time}\n")
+                f.write(f"{id} - {name} - {s} - {action} - {Time}\n")
 
 def menu_title(title):
     if title == "WELCOME":
@@ -457,7 +457,6 @@ def Title():
     print("\n")
 
 def create_imp_files():
-
 
     if not os.path.exists(STORE_DATA_PATH):
 
@@ -514,6 +513,14 @@ def create_imp_files():
         with open(LOG_DATA_PATH, "w") as f:
             f.write(data)
 
+def display_log():
+
+    decor_line()
+    console.print("[blue] --- LOG DISPLAY --- ")
+    decor1_color()
+    with open(LOG_DATA_PATH, "r") as f:
+        data = f.read()
+        console.print(f"[#FFD54F]{data}[/]")
 
 def update_record(sheet,code_list,bookname_list,author_list,price_list,quantity_list,total_list,date):
 

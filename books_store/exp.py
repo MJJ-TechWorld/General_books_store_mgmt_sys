@@ -67,20 +67,26 @@ def main_menu(title):
             break
 
         elif select_option == "2":
-            login_portal("c")
+            l = login_portal("c")
+            login_activity(l[0],l[1],"c")
             second_p()
+            login_activity(l[0],l[1],"c",s="Logged out")
             main_menu("MAIN PORTAL")
             break
 
         elif select_option == "3":
-            login_portal("s")
+            l = login_portal("c")
+            login_activity(l[0],l[1],"s")
             third_p()
+            login_activity(l[0],l[1],"s",s="Logged out")
             main_menu("MAIN PORTAL")
             break
 
         elif select_option == "4":
-            login_portal("p")
+            l = login_portal("c")
+            login_activity(l[0],l[1],"p")
             fourth_p()
+            login_activity(l[0],l[1],"p",s="Logged out")
             main_menu("MAIN PORTAL")
             break
 
@@ -1020,7 +1026,8 @@ def fourth_p():
         text_color("\t3. Add New Employee")
         text_color("\t4. Grant Access to employee to applications")
         text_color("\t5. Revoke Access to employee to applications")
-        text_color("\t6. Exit")
+        text_color("\t6. Check LOG")
+        text_color("\t7. Exit")
 
         while True:
             decor_line()    
@@ -1052,6 +1059,11 @@ def fourth_p():
                 break
 
             elif select_option == "6":
+                display_log()
+                menu()
+                break
+
+            elif select_option == "7":
                 return
 
             else:
