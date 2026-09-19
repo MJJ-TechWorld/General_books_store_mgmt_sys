@@ -24,16 +24,19 @@ from rich.panel import Panel
 from rich.progress import track
 console = Console()
 from function_utils import *
-# pwd = pwinput.pwinput(prompt="Enter Your Password : ", mask="*")
 
 #------------------------------------------------
 # ASSIGNING IMP PATHS TO THE VARIABLES
 #------------------------------------------------
 
-CREDT_DATA_PATH = "Credential.txt"
-EMPLS_DATA_PATH = "Employees_Data.csv"
+CREDaT_DATA_PATH = "Credential.txt"
+EMPLaS_DATA_PATH = "Employees_Data.csv"
 BOOK_DATA_PATH = "BOOKS_DATA.xlsx"
 STORE_DATA_PATH = "STORE_RECORDS.xlsx"
+
+CREDT_DATA_PATH = "CREDENTIAL.txt"
+EMPLS_DATA_PATH = "EMPLOYEES.csv"
+LOG_DATA_PATH = "Activity_Log.txt"
 
 
 #------------------------------------------------
@@ -43,9 +46,10 @@ STORE_DATA_PATH = "STORE_RECORDS.xlsx"
 # DEFINING IMP FUNCTIONS USED IN THIS PROGRAM ---
 
 
-def main_menu():
-    main_title()
-    text_color("WELCOME")
+def main_menu(title):
+
+    create_imp_files()
+    menu_title(title)
     head_color("What would you like to do ?\n")
     info_message("\t1. Create Employee Account -")
     info_message("\t2. Order Processing-")
@@ -59,22 +63,25 @@ def main_menu():
 
         if select_option == "1":
             first_p()
-            main_menu()
+            main_menu("MAIN PORTAL")
             break
 
         elif select_option == "2":
+            login_portal("c")
             second_p()
-            main_menu()
+            main_menu("MAIN PORTAL")
             break
 
         elif select_option == "3":
+            login_portal("s")
             third_p()
-            main_menu()
+            main_menu("MAIN PORTAL")
             break
 
         elif select_option == "4":
+            login_portal("p")
             fourth_p()
-            main_menu()
+            main_menu("MAIN PORTAL")
             break
 
         elif select_option == "5":
@@ -206,45 +213,6 @@ def second_p():
 
     sub_title("CASHIER CORNER")
 
-    def create_store_records_excel():
-
-        if not os.path.exists(STORE_DATA_PATH):
-
-            workbook = openpyxl.Workbook()
-
-            sheet1 = workbook.active
-            sheet1.title = "Users Data"
-
-            header1 = ["Unique Code", "Book Name", "Author Name", "MRP (in Rs)", "Quantity", "Total", "Profit", "Date"]
-            column_width1 = [20,52,34,19,18,19,22,17]
-
-            for i in range(len(header1)):
-                col = i + 1
-                c = sheet1.cell(row=1, column=col)
-                c.value = header1[i]
-                c.font = Font(bold=True, underline="single")
-                c.alignment = Alignment(horizontal="center")
-                c.border = Border(left=Side("thin"),right=Side("thin"),top=Side("thin"),bottom=Side("thin"))
-                sheet1.column_dimensions[c.column_letter].width = column_width1[i]
-
-            sheet2 = workbook.create_sheet(title="Store Data")
-
-            header2 = ["Unique Code", "Book Name", "Author Name", "Wholesale Price", "Quantity", "Total Expense", "Date"]
-            column_width2 = [20,52,34,19,18,22,17]
-
-
-            for i in range(len(header2)):
-                col = i + 1
-                c = sheet2.cell(row=1, column=col)
-                c.value = header2[i]
-                c.font = Font(bold=True, underline="single")
-                c.alignment = Alignment(horizontal="center")
-                c.border = Border(left=Side("thin"),right=Side("thin"),top=Side("thin"),bottom=Side("thin"))
-                sheet2.column_dimensions[c.column_letter].width = column_width2[i]
-
-            workbook.save(STORE_DATA_PATH)
-            workbook.close()
-
     def create_bill(code,bookname,author,price,quantity,total,date):
 
         good_quotes = ["'Books are uniquely portable magic'",
@@ -314,7 +282,6 @@ def second_p():
                 error_message("Book Not Found!") 
                 continue
 
-
             while True:
                 quantity = user_input("Enter quantity of this book : ")
 
@@ -372,8 +339,6 @@ def second_p():
                     option_error()
                     continue
         
-
-
     def choose_option():
         while True:
             decor_line()
@@ -427,7 +392,6 @@ def second_p():
 
 
     def menu():
-        create_store_records_excel()
         decor_line()
         head_color("Actions Available :\n")
         text_color("\t1. Search book(s)")
@@ -440,9 +404,11 @@ def second_p():
 
             if select_option == "1":
                 search_book()
+                menu()
                 break
             elif select_option == "2":
                 choose_option()
+                menu()
                 break
 
             elif select_option == "3":
@@ -743,22 +709,27 @@ def third_p():
 
             if select_option == "1":
                 search_book()
+                menu()
                 break
 
             elif select_option == "2":
                 check_stock()
+                menu()
                 break
 
             elif select_option == "3":
                 add_old_book()
+                menu()
                 break
 
             elif select_option == "4":
                 add_new_book()
+                menu()
                 break
 
             elif select_option == "5":
                 add_new_book("new")
+                menu()
                 break
 
             elif select_option == "6":
@@ -990,7 +961,7 @@ def fourth_p():
             if str(row[6].value).strip() == str(date):
                 loss1.append(int(row[5].value))
                 d1.append(int(row[4].value))
-            if str(row[6].value).strip()[:5] == str(date)[:5]:
+            if str(row[6].value).strip()[3:] == str(date)[3:]:
                 loss2.append(int(row[5].value))
                 d2.append(int(row[4].value))
             if str(row[6].value).strip()[-2:] == str(date)[-2:]:
@@ -1004,7 +975,7 @@ def fourth_p():
                 if str(row[7].value).strip() == str(date):
                     profit1.append(int(row[6].value))
                     t1.append(int(row[4].value))
-                if str(row[7].value).strip()[:5] == str(date)[:5]:
+                if str(row[7].value).strip()[3:] == str(date)[3:]:
                     profit2.append(int(row[6].value))
                     t2.append(int(row[4].value))
                 if str(row[7].value).strip()[-2:] == str(date)[-2:]:
@@ -1019,12 +990,14 @@ def fourth_p():
         table = Table()
         header = ["NAME","TODAY","THIS MONTH","THIS YEAR"]
         for h in header:
-            table.add_column(str(h))
+            table.add_column(f"[green]{str(h)}[/]")
         table.add_row(f"[#0000ff]Total Books Sold[/]",str(s1),str(s2),str(s3))
-        table.add_row(f"[#0000ff]Profit[/]",str(p1),str(p2),str(p3))
+        table.add_row(f"[#0000ff]Profit[/]",f"₹{str(p1)}",f"₹{str(p2)}",f"₹{str(p3)}")
         table.add_row(f"[#0000ff]Total Books Added[/]",str(a1),str(a2),str(a3))
-        table.add_row(f"[#0000ff]Expense[/]",str(l1),str(l2),str(l3))
+        table.add_row(f"[#0000ff]Expense[/]",f"₹{str(l1)}",f"₹{str(l2)}",f"₹{str(l3)}")
 
+        decor_line()
+        console.print("\n[yellow]--Sale Of Store--[/]\n")
         console.print(table)
 
     def change_rate():
@@ -1085,4 +1058,4 @@ def fourth_p():
                 option_error()
     menu()
 
-main_menu()
+main_menu("WELCOME")

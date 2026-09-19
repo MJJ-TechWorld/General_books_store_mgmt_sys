@@ -1,38 +1,66 @@
-from datetime import datetime
-from openpyxl import load_workbook
-STORE_DATA_PATH = "STORE_RECORDS.xlsx"
+# import csv
+# import os
 
-profit1,profit2,profit3 = [],[],[]
-loss1,loss2,loss3 = [],[],[]
 
-date = datetime.today().strftime('%d-%m-%Y')
+# CREDT_DATA_PATH = "Credential.txt"
+# EMPLS_DATA_PATH = "Employees_Data.csv"
+# LOG_DATA_PATH = "Activity_Log.txt"
 
-wb = load_workbook(STORE_DATA_PATH)
-s = wb["Store Data"]
-for row in s.iter_rows(min_row=2,values_only=False):
-    if str(row[6].value).strip() == str(date):
-        loss1.append(int(row[5].value))
-    if str(row[6].value).strip()[:5] == str(date)[:5]:
-        loss2.append(int(row[5].value))
-    if str(row[6].value).strip()[-2:] == str(date)[-2:]:
-        loss3.append(int(row[5].value))
+# emplyee = "EMPLOYEES.csv"
+# cred = "CREDENTIAL.txt"
 
-wd = load_workbook(STORE_DATA_PATH)
-s = wd["Users Data"]
-for row in s.iter_rows(min_row=2,values_only=False):
-    for row in s.iter_rows(min_row=2,values_only=False):
-        if str(row[7].value).strip() == str(date):
-            profit1.append(int(row[6].value))
-        if str(row[7].value).strip()[:5] == str(date)[:5]:
-            profit2.append(int(row[6].value))
-        if str(row[7].value).strip()[-2:] == str(date)[-2:]:
-            profit3.append(int(row[6].value))
+if not os.path.exists(EMPLS_DATA_PATH):
+    header = [ ["EMP ID","First Name","Last Name","Phone Number","Username","Password","Access"],
+    ["EMP101","New","User","1010101010","user@","12345678","csp"] ]
 
-p1,p2,p3 = sum(profit1),sum(profit3),sum(profit3),
-l1,l2,l3 = sum(loss1),sum(loss2),sum(loss3)
+    with open(EMPLS_DATA_PATH, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(header)
 
-print(profit1,profit1,profit3)
-print(loss1,loss2,loss3)
+if not os.path.exists(CREDT_DATA_PATH):
+    data = "EMP ID, Code\n"
+    with open(CREDT_DATA_PATH, "w") as f:
+        f.write(data)
 
-print(p1,p2,p3)
-print(l1,l2,l3)
+if not os.path.exists(LOG_DATA_PATH):
+    data = "EMP ID - Name - Action - Session - Time\n"
+    with open(LOG_DATA_PATH, "w") as f:
+        f.write(data)
+
+
+# emp_id = "EMP102"
+# emp_first_name = "an"
+# emp_last_name = "addn"
+# emp_mob_no = "1010102030"
+# username = "as"
+# password = "alalalalal"
+# usecode = "342285bb2a8cadef22f667eeb6a6bjdw"
+
+# with open(cred, "a") as f:
+#     f.write(f"{emp_id} {usecode}\n")
+
+# with open(emplyee, "a", newline="\n") as file:
+#     write = csv.writer(file)
+#     write.writerow([emp_id,emp_first_name,emp_last_name,emp_mob_no])
+
+
+# with open(emplyee, "r+", newline="") as f:
+#     data = csv.reader(f)
+#     rows = []
+#     for row in data:
+
+#         if row[0] == emp_id and row[3] == emp_mob_no and len(row) == 4:
+#             row.append(username)
+#             row.append(password)
+
+#         else:
+#             print("Account Already Exists!")
+
+#         rows.append(row)
+
+#     f.seek(0)
+#     writer = csv.writer(f)
+#     for r in rows:
+#         writer.writerow(r)
+
+#     f.truncate()

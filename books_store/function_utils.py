@@ -59,10 +59,23 @@ console = Console()
 # ASSIGNING VALUES TO IMP VARIABLES :
 #------------------------------------------------
 
-CREDT_DATA_PATH = "Credential.txt"
-EMPLS_DATA_PATH = "Employees_Data.csv"
+CREDaT_DATA_PATH = "Credential.txt"
+EMPLaS_DATA_PATH = "Employees_Data.csv"
 BOOK_DATA_PATH = "BOOKS_DATA.xlsx"
 STORE_DATA_PATH = "STORE_RECORDS.xlsx"
+LOGa_DATA_PATH = "Activity_Log.txt"
+
+# CREDT_DATA_PATH = r"books/store/Credential.txt"
+# EMPLS_DATA_PATH = r"books_store/Employees_Data.csv"
+# LOG_DATA_PATH = r"books_store/Activity_Log.txt"
+
+CREDT_DATA_PATH = "CREDENTIAL.txt"
+EMPLS_DATA_PATH = "EMPLOYEES.csv"
+LOG_DATA_PATH = "Activity_Log.txt"
+
+# emplyee = "EMPLOYEES.csv"
+# cred = "CREDENTIAL.txt"
+
 
 #------------------------------------------------
 # DEFINING IMP FUNCTIONS OF DECORATIVE STUFFS :
@@ -81,8 +94,9 @@ def decor_line():
     decor = "-"*80
     console.print(f"[#8A2BE2]{decor}[/#8A2BE2]")
 
-def decor1_color(message):
-    console.print(f"\n[bold underline #FFAA33]{message}[/]")
+def decor1_color():
+    d = "*" * 80
+    console.print(f"\n[#FFAA33]{d}[/]")
 
 def head_color(message):
     console.print(f"\n[bold underline #FF8C00]{message}[/]")
@@ -140,6 +154,7 @@ def check_username(username,access):
                 return "yes"
             
         error_message("Invalid Username!")
+        decor_line()
 
 
 def check_password(u,p): 
@@ -160,6 +175,7 @@ def check_password(u,p):
                 return "yes"
 
         error_message("Wrong Password!\n")
+        decor_line()
 
 # def create_data_excel():
 
@@ -341,7 +357,7 @@ def check_stock():
                 error_message("Please enter valid quantity !")
 
 
-def login_title():
+def main_title():
     f = Figlet(font='small',width=250)
     title_box = Table(box=box.ROUNDED, border_style="#FFF3E0",style="on #2d1f0f",expand=True,show_header=False,padding=(1,2))
     title_box.add_column(justify="center", no_wrap=True)
@@ -351,17 +367,14 @@ def login_title():
     title_box.add_row(Align.center(Text("( By MJJ-TechWorld )",style="bold #FFD700")))
 
     console.print(title_box)
-    print("\n")
 
 def login_portal(access):
-    login_title()
-    t = "LOGIN PORTAL"
     title_box = Table(box=box.DOUBLE_EDGE, border_style="#FF007F",style="on #2d1f0f",expand=True,show_header=False,padding=(2,3))
     title_box.add_row(Text("LOGIN PORTAL",style="#0066FF",justify="center"))
+    decor1_color()
     console.print(title_box)
     head_color("Username\n")
 
-    a = 0
     while True:
         username = user_input("Enter Your Username : ")
         decor_line()
@@ -371,17 +384,57 @@ def login_portal(access):
             while True:
                 console.print("[bold bright_blue]Enter Your Password : [/]", end = "")
                 password = pwinput.pwinput(prompt="", mask="*")
-                # password = user_input("Enter Your Password : ")
                 decor_line()
 
                 if check_password(username,password) == "yes":
-                    a = 1
                     info_message("Logged in successfully!")
+                    login_activity(username,password,access)
                     decor_line()
                     progress_bar("Creating UI and required display")
+                    decor1_color()
+                    print("\n")
                     break
             break
-    return a
+
+def login_activity(u,p,a):
+
+    with open(EMPLS_DATA_PATH, "r") as file:
+        data = csv.reader(file)
+        next(data)
+        for row in data:
+            if (row and row[4] == u and row[5] == p):
+                id = row[0]
+                fn = row[1]
+                ln = row[2]
+                name = fn + " " + ln
+                Time = datetime.now().strftime("%d-%m-%Y %I:%M %p")
+            
+            if a == "c":
+                action = "Cashier Corner"
+            elif a == "s":
+                action = "Stock Clerk Corner"
+            elif a == "p":
+                action = "Director Corner"
+
+        
+            with open(LOG_DATA_PATH, "a") as f:
+                f.write(f"{id} - {name} - Logged in - {action} - {Time}\n")
+
+def menu_title(title):
+    if title == "WELCOME":
+        main_title()
+        title_box = Table(box=box.DOUBLE_EDGE, border_style="#FF007F",style="on #2d1f0f",expand=True,show_header=False,padding=(1,1))
+        title_box.add_row(Text(f"{title}",style="#0066FF",justify="center"))
+        print("\n")
+        console.print(title_box)
+        print("\n")
+    else:
+        title_box = Table(box=box.DOUBLE_EDGE, border_style="#FF007F",style="on #2d1f0f",expand=True,show_header=False,padding=(1,1))
+        title_box.add_row(Text(f"{title}",style="#0066FF",justify="center"))
+        print("\n")
+        console.print(title_box)
+        print("\n")
+
 
 def sub_title(title):
 
@@ -391,7 +444,7 @@ def sub_title(title):
     console.print(title_box)
     print("\n")
 
-def main_title():
+def Title():
     f = Figlet(font='small',width=250)
     title_box = Table(box=box.ROUNDED, border_style="#FF1493",style="on #1A020F",expand=True,show_header=False,padding=(1,2))
     title_box.add_column(justify="center", no_wrap=True, style="on #2D2327")
@@ -402,6 +455,65 @@ def main_title():
 
     console.print(title_box)
     print("\n")
+
+def create_imp_files():
+
+
+    if not os.path.exists(STORE_DATA_PATH):
+
+        workbook = openpyxl.Workbook()
+
+        sheet1 = workbook.active
+        sheet1.title = "Users Data"
+
+        header1 = ["Unique Code", "Book Name", "Author Name", "MRP (in Rs)", "Quantity", "Total", "Profit", "Date"]
+        column_width1 = [20,52,34,19,18,19,22,17]
+
+        for i in range(len(header1)):
+            col = i + 1
+            c = sheet1.cell(row=1, column=col)
+            c.value = header1[i]
+            c.font = Font(bold=True, underline="single")
+            c.alignment = Alignment(horizontal="center")
+            c.border = Border(left=Side("thin"),right=Side("thin"),top=Side("thin"),bottom=Side("thin"))
+            sheet1.column_dimensions[c.column_letter].width = column_width1[i]
+
+        sheet2 = workbook.create_sheet(title="Store Data")
+
+        header2 = ["Unique Code", "Book Name", "Author Name", "Wholesale Price", "Quantity", "Total Expense", "Date"]
+        column_width2 = [20,52,34,19,18,22,17]
+
+
+        for i in range(len(header2)):
+            col = i + 1
+            c = sheet2.cell(row=1, column=col)
+            c.value = header2[i]
+            c.font = Font(bold=True, underline="single")
+            c.alignment = Alignment(horizontal="center")
+            c.border = Border(left=Side("thin"),right=Side("thin"),top=Side("thin"),bottom=Side("thin"))
+            sheet2.column_dimensions[c.column_letter].width = column_width2[i]
+
+        workbook.save(STORE_DATA_PATH)
+        workbook.close()
+
+    if not os.path.exists(EMPLS_DATA_PATH):
+        header = [ ["EMP ID","First Name","Last Name","Phone Number","Username","Password","Access"],
+        ["EMP101","New","User","1010101010","user@","12345678","csp"] ]
+
+        with open(EMPLS_DATA_PATH, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerows(header)
+
+    if not os.path.exists(CREDT_DATA_PATH):
+        data = "EMP ID, Code\n"
+        with open(CREDT_DATA_PATH, "w") as f:
+            f.write(data)
+
+    if not os.path.exists(LOG_DATA_PATH):
+        data = "EMP ID - Name - Action - Session - Time\n"
+        with open(LOG_DATA_PATH, "w") as f:
+            f.write(data)
+
 
 def update_record(sheet,code_list,bookname_list,author_list,price_list,quantity_list,total_list,date):
 
