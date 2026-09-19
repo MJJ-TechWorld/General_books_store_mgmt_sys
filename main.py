@@ -29,15 +29,11 @@ from function_utils import *
 # ASSIGNING IMP PATHS TO THE VARIABLES
 #------------------------------------------------
 
-CREDaT_DATA_PATH = "Credential.txt"
-EMPLaS_DATA_PATH = "Employees_Data.csv"
 BOOK_DATA_PATH = "BOOKS_DATA.xlsx"
 STORE_DATA_PATH = "STORE_RECORDS.xlsx"
-
 CREDT_DATA_PATH = "CREDENTIAL.txt"
 EMPLS_DATA_PATH = "EMPLOYEES.csv"
 LOG_DATA_PATH = "Activity_Log.txt"
-
 
 #------------------------------------------------
 # PROGRAM START FROM HERE :
@@ -987,18 +983,17 @@ def fourth_p():
         wd = load_workbook(STORE_DATA_PATH)
         s = wd["Users Data"]
         for row in s.iter_rows(min_row=2,values_only=False):
-            for row in s.iter_rows(min_row=2,values_only=False):
-                if str(row[7].value).strip() == str(date):
-                    profit1.append(int(row[6].value))
-                    t1.append(int(row[4].value))
-                if str(row[7].value).strip()[3:] == str(date)[3:]:
-                    profit2.append(int(row[6].value))
-                    t2.append(int(row[4].value))
-                if str(row[7].value).strip()[-2:] == str(date)[-2:]:
-                    profit3.append(int(row[6].value))
-                    t3.append(int(row[4].value))
+            if str(row[7].value).strip() == str(date):
+                profit1.append(int(row[6].value))
+                t1.append(int(row[4].value))
+            if str(row[7].value).strip()[3:] == str(date)[3:]:
+                profit2.append(int(row[6].value))
+                t2.append(int(row[4].value))
+            if str(row[7].value).strip()[-2:] == str(date)[-2:]:
+                profit3.append(int(row[6].value))
+                t3.append(int(row[4].value))
 
-        p1,p2,p3 = sum(profit1),sum(profit),sum(profit3),
+        p1,p2,p3 = sum(profit1),sum(profit2),sum(profit3),
         l1,l2,l3 = sum(loss1),sum(loss2),sum(loss3)
         s1,s2,s3 = sum(t1),sum(t2),sum(t3)
         a1,a2,a3 = sum(d1),sum(d2),sum(d3)

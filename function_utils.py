@@ -1,35 +1,3 @@
-# import openpyxl
-# from colorama import init, Fore, Back, Style
-# init(autoreset=True)
-# from openpyxl import load_workbook
-# from openpyxl.styles import Alignment
-# from rich import console
-# from datetime import datetime, timedelta
-# from pyfiglet import figlet_format
-
-
-# import csv
-# import random
-# import time
-# import uuid
-# import os
-# import emoji
-
-# from getpass import getpass
-# from datetime import datetime, timedelta
-# from pyfiglet import figlet_format
-# from pyfiglet import Figlet
-
-# from rich.console import Console,Group
-# from rich.table import Table
-# from rich.text import Text
-# from rich.rule import Rule
-# from rich.align import Align
-# from rich import box
-# from rich.panel import Panel
-# from rich.progress import track
-# console = Console()
-
 import csv
 import random
 import time
@@ -59,23 +27,11 @@ console = Console()
 # ASSIGNING VALUES TO IMP VARIABLES :
 #------------------------------------------------
 
-CREDaT_DATA_PATH = "Credential.txt"
-EMPLaS_DATA_PATH = "Employees_Data.csv"
 BOOK_DATA_PATH = "BOOKS_DATA.xlsx"
 STORE_DATA_PATH = "STORE_RECORDS.xlsx"
-LOGa_DATA_PATH = "Activity_Log.txt"
-
-# CREDT_DATA_PATH = r"books/store/Credential.txt"
-# EMPLS_DATA_PATH = r"books_store/Employees_Data.csv"
-# LOG_DATA_PATH = r"books_store/Activity_Log.txt"
-
 CREDT_DATA_PATH = "CREDENTIAL.txt"
 EMPLS_DATA_PATH = "EMPLOYEES.csv"
 LOG_DATA_PATH = "Activity_Log.txt"
-
-# emplyee = "EMPLOYEES.csv"
-# cred = "CREDENTIAL.txt"
-
 
 #------------------------------------------------
 # DEFINING IMP FUNCTIONS OF DECORATIVE STUFFS :
@@ -188,7 +144,7 @@ def search_book():
         text_color("\t1.By Name of Book -")
         text_color("\t2.By Name of Author of Book -")
         text_color("\t3.By Publishing Date of Book -")
-        text_color("\t3.By Genre of Book -\n")
+        text_color("\t4.By Genre of Book -\n")
 
         sel_option = user_input("Enter option number to proceed further : ")
 
@@ -245,7 +201,7 @@ def check_by_author_name():
     for sheet in wb.sheetnames:
         s = wb[sheet]
         for row in s.iter_rows(min_row=2,values_only=True):
-            if author_name in str(row[3]).strip().lower():
+            if str(author_name).strip().lower() in str(row[3]).strip().lower():
                 info_message(f"{row[1]} : {row[2]} : {row[3]} : Avail {row[9]} : Price {row[7]}")
                 decor_line()
                 value = True
