@@ -1,295 +1,209 @@
-📚 General Books Store Management System
+# 📚 General Books Store Management System
 
-A Python-based Book Store Management System designed to manage books, sales, inventory, employees, access permissions, and store activities through a simple terminal-based interface.
-
-Repository: "MJJ-TechWorld/General_books_store_mgmt_sys" (https://reference-url-citation.invalid/1)
-
-Author: MJJ-TechWorld
+> **A console-based Python application for managing books, inventory, sales, employees, authentication, and role-based access.**
 
 ---
 
-✨ Features
+## ✨ Features
 
-- 📖 Book Search and Management
-- 🛒 Book Purchase and Billing
-- 📦 Stock and Inventory Management
-- 👨‍💼 Employee Management
-- 🔐 Employee Authentication
-- 🎯 Role-Based Access Control
-- 📊 Sales and Store Records
-- 📝 Activity Logging
-- 📑 Excel and CSV Data Management
-- 🎨 Rich Terminal Interface
-
----
-
-⚙️ Requirements
-
-- Python 3.x
-- Packages listed in "requirements.txt"
-
-Install the required packages:
-
-pip install -r requirements.txt
+- 📖 **Book Search**
+- 🛒 **Book Purchase & Sales**
+- 📦 **Inventory Management**
+- 👨‍💼 **Employee Management**
+- 🔐 **Authentication**
+- 🛡️ **Role-Based Access Control**
+- 📊 **Sales & Store Records**
+- 📝 **Activity Logging**
+- 🏷️ **Book & Genre Management**
+- 💾 **Excel & CSV Data Storage**
+- 🎨 **Rich Console Interface**
 
 ---
 
-🚀 Getting Started
+## 🛠️ Technologies Used
 
-1. Clone the Repository
-
-git clone https://github.com/MJJ-TechWorld/General_books_store_mgmt_sys.git
-cd General_books_store_mgmt_sys
-
-2. Install Dependencies
-
-pip install -r requirements.txt
-
-3. Run the Program
-
-python main.py
-
-After the first run, the program automatically creates the required data files:
-
-STORE_RECORDS.xlsx
-EMPLOYEES.csv
-CREDENTIAL.txt
-Activity_Log.txt
-
-The main book database is provided with the project as:
-
-BOOKS_DATA.xlsx
+- **Python**
+- **OpenPyXL**
+- **Rich**
+- **Colorama**
+- **PyFiglet**
+- **Emoji**
+- **CSV**
 
 ---
 
-🔑 Quick Start Account
+## 📋 Requirements
 
-If you want to directly explore the complete system without creating a new employee account, use the default account:
+- **Python 3.x**
+- Required packages are listed in `requirements.txt`.
 
-Username: user@
-Password: 12345678
+Install the required packages using:
 
-This account provides access to all available application areas.
-
----
-
-👨‍💼 Employee Account Setup
-
-For a new employee, account creation is completed in three simple stages.
-
-1️⃣ Create Employee Record
-
-From the Main Portal, select:
-
-4. Enterprise Management
-
-Enter the Director Corner and select:
-
-3. Create New Employee Account
-
-Enter the required employee details.
-
-After successful registration, the system generates:
-
-- Employee ID
-- Employee Verification Code
-
-Keep these details available for the next stage.
+    pip install -r requirements.txt
 
 ---
 
-2️⃣ Create Login Credentials
+## 🚀 Getting Started
 
-Return to the Main Portal and select:
+### 1️⃣ Clone the Repository
 
-1. Create Employee Account
+    git clone https://github.com/MJJ-TechWorld/General_books_store_mgmt_sys.git
 
-Enter the:
+### 2️⃣ Enter the Project Directory
 
-- Employee ID
-- Verification Code
+    cd General_books_store_mgmt_sys
 
-Then create your:
+### 3️⃣ Install Dependencies
 
-- Username
-- Password
+    pip install -r requirements.txt
 
-After successful verification, the employee login account will be created.
+### 4️⃣ Run the Application
 
----
-
-3️⃣ Grant Application Access
-
-Return to the Director Corner through:
-
-4. Enterprise Management
-
-Select the option for granting application access.
-
-Access can be provided for:
-
-1. Cashier
-2. Stock Clerk
-3. Proprietor
-
-Grant the required permissions to the employee.
-
-To provide complete access, grant all three application permissions.
-
-The employee can now log in and use the authorized features.
+    python main.py
 
 ---
 
-🧭 Main Portal
+## 🔐 Default Account
 
-The Main Portal provides access to the major areas of the system:
-
-1. Create Employee Account
-2. Order Processing
-3. Stock Audit
-4. Enterprise Management
-5. Exit
-
-👤 Create Employee Account
-
-Creates login credentials for an employee whose employee record has already been registered.
-
-💳 Order Processing
-
-Opens the Cashier Corner for sales and billing operations.
-
-📦 Stock Audit
-
-Opens the Stock Clerk Corner for inventory and stock operations.
-
-👔 Enterprise Management
-
-Opens the Director Corner for administrative operations.
-
-🚪 Exit
-
-Closes the application.
+| Field | Value |
+|---|---|
+| **Username** | `user@` |
+| **Password** | `12345678` |
 
 ---
 
-💳 Cashier Corner
+## 👨‍💼 Employee Account Setup
 
-The Cashier Corner handles customer purchase operations.
+### 1️⃣ Create Employee Record
 
-It includes:
+Go to:
 
-- Book searching
-- Book purchasing
-- Multiple-book transactions
-- Quantity verification
-- Bill generation
-- Sales record management
-- Inventory updates after sales
+**Main Portal → Enterprise Management → Director Corner → Employee Registration**
 
----
+An **Employee ID** and **verification code** are generated.
 
-📦 Stock Clerk Corner
+### 2️⃣ Create Employee Account
 
-The Stock Clerk Corner manages the store's inventory.
+Go to:
 
-It provides functionality for:
+**Main Portal → Create Employee Account**
 
-- Searching books
-- Checking available stock
-- Adding copies of existing books
-- Adding new books
-- Creating new book genres
-- Updating inventory records
+Enter the **Employee ID** and **verification code**, then create the login credentials.
+
+### 3️⃣ Grant Access
+
+From the **Director Corner**, access can be granted to:
+
+- 💰 **Cashier**
+- 📦 **Stock Clerk**
+- 👔 **Proprietor**
 
 ---
 
-👔 Director Corner
+## 🏠 Main Portal
 
-The Director Corner provides administrative and management functionality.
-
-It includes:
-
-- Book searching
-- Sales and store records
-- Employee registration
-- Employee access management
-- Application access control
-- Activity log viewing
-
-The Director can control which application areas are available to each employee.
+| Option | Section |
+|---|---|
+| **1** | 👨‍💼 Create Employee Account |
+| **2** | 🛒 Order Processing |
+| **3** | 📦 Stock Audit |
+| **4** | 🏢 Enterprise Management |
+| **5** | 🚪 Exit |
 
 ---
 
-📊 Data Files
+## 💰 Cashier Corner
 
-The application uses local files to maintain its data.
-
-File| Purpose
-"BOOKS_DATA.xlsx"| Main book and inventory database
-"STORE_RECORDS.xlsx"| Sales, transactions, and store records
-"EMPLOYEES.csv"| Employee information and application access
-"CREDENTIAL.txt"| Employee verification information
-"Activity_Log.txt"| Employee activity records
+- 🔎 **Search books**
+- 🛒 **Process purchases**
+- 📚 **Purchase multiple books**
+- 🧾 **Handle billing**
+- 📦 **Update inventory**
+- 📊 **Maintain sales records**
 
 ---
 
-🔐 Access System
+## 📦 Stock Clerk Corner
 
-The employee access flow is:
-
-Employee Registration
-        ↓
-Employee ID + Verification Code
-        ↓
-Username + Password
-        ↓
-Application Access
-        ↓
-Cashier / Stock Clerk / Director
-
-Application permissions are managed from the Director Corner.
+- 🔎 **Search books**
+- 📊 **Perform stock audits**
+- ➕ **Add copies**
+- 📖 **Add new books**
+- 🏷️ **Create genres**
 
 ---
 
-📁 Project Structure
+## 👔 Director Corner
 
-General_books_store_mgmt_sys/
-│
-├── main.py
-├── function_utils.py
-├── BOOKS_DATA.xlsx
-├── requirements.txt
-└── .gitignore
-
-The following files are generated automatically when the application is run:
-
-STORE_RECORDS.xlsx
-EMPLOYEES.csv
-CREDENTIAL.txt
-Activity_Log.txt
+- 🔎 **Search books**
+- 📊 **View sales and store records**
+- 👨‍💼 **Register employees**
+- 🔐 **Grant access**
+- 🚫 **Revoke access**
+- 📝 **View activity logs**
 
 ---
 
-▶️ Basic Usage
+## 💾 Data Storage
 
-Clone Repository
-       ↓
-Install Dependencies
-       ↓
-Run main.py
-       ↓
-Use Default Account
-       OR
-Create Employee Account
-       ↓
-Grant Application Access
-       ↓
-Use Cashier / Stock Clerk / Director Features
+| File | Purpose |
+|---|---|
+| 📚 **BOOKS_DATA.xlsx** | Book data |
+| 📊 **STORE_RECORDS.xlsx** | Store and sales records |
+| 👨‍💼 **EMPLOYEES.csv** | Employee data |
+| 📝 **Activity_Log.txt** | Activity logs |
+| 🔐 **CREDENTIAL.txt** | Credentials |
 
 ---
 
-👨‍💻 Author
+## 🔑 Access Structure
 
-MJJ-TechWorld
+**🏢 Director**
 
-Built with Python as a console-based Book Store Management System.
+↳ **💰 Cashier**
+
+↳ **📦 Stock Clerk**
+
+↳ **👔 Proprietor**
+
+Employees can be given access to **one or multiple sections**.
+
+---
+
+## 📁 Project Structure
+
+**General_books_store_mgmt_sys/**
+
+├── 📄 **main.py**  
+├── 📄 **function_utils.py**  
+├── 📚 **BOOKS_DATA.xlsx**  
+├── 📄 **requirements.txt**  
+├── 📄 **.gitignore**  
+└── 📖 **README.md**
+
+---
+
+## 🎯 Project Purpose
+
+This project demonstrates the use of **Python to build a console-based Book Store Management System** with:
+
+- **Authentication**
+- **Role-based access**
+- **Inventory management**
+- **Sales processing**
+- **Employee management**
+- **File-based data storage**
+
+---
+
+## 👨‍💻 Author
+
+**MJJ-TechWorld**
+
+⭐ **If you find this project useful, consider giving it a star!**
+
+---
+
+## 🔗 Repository
+
+https://github.com/MJJ-TechWorld/General_books_store_mgmt_sys
